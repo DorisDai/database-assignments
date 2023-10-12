@@ -55,7 +55,8 @@ as
     from Brewed_by join Beers on beer = id
     group by brewery
     -- difference between having and where:
-    -- use where to check wheather each tuple should be included
+    -- use where to check wheather each tuple should be included to be grouped(before grouping)
+    -- use have to filter already grouped result tuple.
     having count(rating) > 4;
 
 create or replace view Q4(brewery,rating)
