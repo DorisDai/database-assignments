@@ -22,7 +22,8 @@ create or replace view Q1(state, nbreweries)as
 --
 ---- Q2
 create or replace view Q2(style,min_abv,max_abv) as
--- name: double qupte single quote?
+-- name should be double qupte single quote or no quotes?
+-- Answer:no single quotes, the other 2 are all good
     select name, min_abv, max_abv
     from Styles
     where max_abv - min_abv = (select max(max_abv - min_abv) from Styles );
@@ -30,10 +31,17 @@ create or replace view Q2(style,min_abv,max_abv) as
 --
 ---- Q3
 --
---create or replace view Q3(...)
---as
---...
---;
+create or replace view beerStyleRange(styleId, lo_abv, hi_abv) as
+    select style, min(ABV), max(ABV)
+    from Beers 
+    group by style;
+
+create or replace view Q3(style, lo_abv, hi_abv, min_abv, max_abv)
+as
+    select name, lo_abv, hi_abv, min_abv, max_abv
+    from Styles S join beerStyleRange Bsr on S.id = Bsr.styleId
+    where (lo_abv < min_abv or hi_abv > max_abv) and min_abv != max_abv;
+;
 --
 ---- Q4
 --
