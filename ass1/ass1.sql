@@ -21,16 +21,11 @@ create or replace view Q1(state, nbreweries)as
     group by region;
 --
 ---- Q2
-
 create or replace view Q2(style,min_abv,max_abv) as
 -- name: double qupte single quote?
     select name, min_abv, max_abv
     from Styles
-    where max_abv - min_abv = (
-        select name, max(max_abv - min_abv)
-        from Styles
-        group by name;
-    );
+    where max_abv - min_abv = (select max(max_abv - min_abv) from Styles );
 ;
 --
 ---- Q3
