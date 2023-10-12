@@ -14,18 +14,24 @@
 
 ---- Q1
 --
-create or replace view Q1(state, nbreweries)
-as select region as state, count(B.id) as nbreweries
+create or replace view Q1(state, nbreweries)as 
+    select region as state, count(B.id) as nbreweries
     from Breweries B right join Locations L on B.located_in = L.id
     where L.country = 'Australia'
     group by region;
 --
 ---- Q2
---
---create or replace view Q2(...)
---as
---...
---;
+
+create or replace view Q2(style,min_abv,max_abv) as
+-- name: double qupte single quote?
+    select name, min_abv, max_abv
+    from Styles
+    where max_abv - min_abv = (
+        select name, max(max_abv - min_abv)
+        from Styles
+        group by name;
+    );
+;
 --
 ---- Q3
 --
