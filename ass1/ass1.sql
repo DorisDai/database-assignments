@@ -39,7 +39,7 @@ create or replace view beerStyleRange(styleId, lo_abv, hi_abv) as
 create or replace view Q3(style, lo_abv, hi_abv, min_abv, max_abv)
 as
     select name, lo_abv, hi_abv, min_abv, max_abv
-    from Styles S join beerStyleRange Bsr on S.id = Bsr.styleId
+    from Styles join beerStyleRange on id = styleId
     where (lo_abv < min_abv or hi_abv > max_abv) and min_abv != max_abv;
 ;
 --
