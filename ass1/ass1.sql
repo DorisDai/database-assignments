@@ -49,7 +49,7 @@ as
 --
 ---- Q4
 --
-create or replace view breweryRating(validBrewery,avgRating)
+create or replace view breweryRating(validBreweryId,avgRating)
 as
     select brewery, avg(rating::float)::numeric(3,1)
     from Brewed_by join Beers on beer = id
@@ -60,8 +60,8 @@ as
 
 create or replace view Q4(brewery,rating)
 as
-    select validBrewery, avgRating
-    from breweryRating
+    select name, avgRating
+    from breweryRating join Breweries on validBreweryId = id
     where avgRating = (select max(avgRating) from breweryRating);
 
 ;
