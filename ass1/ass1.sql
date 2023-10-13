@@ -118,8 +118,12 @@ begin
             where beer = _beerID
             order by I.name
         loop
-            _noI := false;
-            _result := _result || E'\n  contains\n' || format('    %s (%s)', _beer.name, _beer.itype);
+            if _noI then
+                _result := _result || E'\n  contains:\n';
+            else 
+                _noI := false;
+                _result := _result || format('    %s (%s)', _beer.name, _beer.itype);
+            end if;
         end loop;
 
         if _noI then
