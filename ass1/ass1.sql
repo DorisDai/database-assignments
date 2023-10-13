@@ -120,11 +120,10 @@ begin
         loop
             if _noI then
                 _result := _result || E'\n  contains:\n';
-            else 
                 _noI := false;
-                -- use escape string to enable escape character '\'
-                _result := _result || E'\n' || format('    %s (%s)', _beer.name, _beer.itype);
             end if;
+            -- use escape string to enable escape character '\'
+            _result := _result || E'\n' || format('    %s (%s)', _beer.name, _beer.itype);
         end loop;
 
         if _noI then
