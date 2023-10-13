@@ -106,12 +106,12 @@ declare
 begin
     select name into _beerName from Beers where id = _beerID;
     if (not found) then
-        return format('No such beer (%d)', _beerID);
+        return format('No such beer (%%)', _beerID);
     else 
         _result := format('"%s"', _beerName);
 
         select itype, I.name
-        from Contains join Ingredients on ingredient = id
+        from Contains join Ingredients I on ingredient = id
         where beer = _beerID;
 
         if (not found) then
@@ -121,8 +121,8 @@ begin
             _result := _result || E'\n  contains';
             for _beer in 
                 select itype, I.name
-                from Contains join Ingredients on ingredient = id
-                where beer = _beerID;
+                from Contains join Ingredients I on ingredient = id
+                where beer = _beerID
             loop
                 _result := _result || E'\n' || _beer.name || format(' (%s)'), _beer.itype;
             end loop;
