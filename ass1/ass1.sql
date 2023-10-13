@@ -106,15 +106,15 @@ declare
 begin
     select name into _beerName from Beers where id = _beerID;
     if (not found) then
-        return format('No such beer (%%)', _beerID);
+        return format('No such beer (%s)', _beerID);
     else 
         _result := format('"%s"', _beerName);
 
-        select itype, I.name
-        from Contains join Ingredients I on ingredient = id
-        where beer = _beerID;
-
-        if (not found) then
+        if not exists (
+            select 1
+            from Contains 
+            join Ingredients I on ingredient = id 
+            where beer = _beerID) then
             _result :=  _result || E'\n  no ingredients recorded'; 
             return _result;
         else
