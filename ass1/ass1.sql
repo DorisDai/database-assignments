@@ -108,7 +108,7 @@ begin
     if (not found) then
         return format('No such beer (%d)', _beerID);
     else 
-        _result := '"%"', _beerName;
+        _result := format('"%s"', _beerName);
 
         select itype, I.name
         from Contains join Ingredients on ingredient = id
@@ -124,7 +124,7 @@ begin
                 from Contains join Ingredients on ingredient = id
                 where beer = _beerID;
             loop
-                _result := _result || char(10) || _beer.name || format(' (%)'), _beer.itype;
+                _result := _result || char(10) || _beer.name || format(' (%s)'), _beer.itype;
             end loop;
         end if;  
 
