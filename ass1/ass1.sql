@@ -103,32 +103,28 @@ declare
     _result text;
     _beerName text;
     _beer record;
+    _noI boolean;
 begin
     select name into _beerName from Beers where id = _beerID;
     if (not found) then
         return format('No such beer (%s)', _beerID);
     else 
+        -- \n is not useable in format string
         _result := format('"%s"', _beerName);
 
-        if not exists (
-            select 1
-            from Contains 
-            join Ingredients I on ingredient = id 
-            where beer = _beerID) then
-            _result :=  _result || E'\n  no ingredients recorded'; 
-            return _result;
-        else
+        for _beer in 
+            select itype, I.name
+            from Contains join Ingredients I on ingredient = id
+            where beer = _beerID
+            order by I.name
+        loop
+            _noI := false
+            _result := _result || E'\n  contains\n' || format('    %s (%s)', _beer.name, _beer.itype);
+        end loop;
 
+        if _noI = true
             _result := _result || E'\n  contains';
-            for _beer in 
-                select itype, I.name
-                from Contains join Ingredients I on ingredient = id
-                where beer = _beerID
-                order by I.name
-            loop
-                _result := _result || E'\n' || format('    %s (%s)', _beer.name, _beer.itype);
-            end loop;
-        end if;  
+        end if;
 
         return _result;
     end if;
