@@ -119,7 +119,7 @@ begin
             order by I.name
         loop
             if _noI then
-                _result := _result || E'\n  contains:\n';
+                _result := _result || E'\n  contains:';
                 _noI := false;
             end if;
             -- use escape string to enable escape character '\'
