@@ -117,7 +117,8 @@ begin
         where beer = _beerID;
 
         if ( not found) then
-            return _result || char(10) || '  no ingredients recorded'; 
+            _result :=  _result || char(10) || '  no ingredients recorded'; 
+            return _result;
         else
             _result := _result || char(10) || '  contains';
             for _beer in 
