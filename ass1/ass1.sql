@@ -80,12 +80,21 @@ language sql ;
 --
 ---- Q6
 --
---create or replace function
---    Q6(...) returns ...
---as $$
---...
---$$
---language sql ;
+create or replace function
+   Q6(pattern text) returns
+       table(country text, first integer, nbeers integer, rating numeric)
+as $$
+    select country, min(brewed), count(Beers.id), avg(rating)::numeric(3,1)
+    from Beers 
+    join Brewed_by on Beers.id = beer
+    join Breweries on brewery = Breweries.id
+    join Locations on Locations.id = located_in
+    group by country
+    where country ~* ('.*' || pattern || '.*');
+
+
+$$
+language sql ;
 --
 ---- Q7
 --
