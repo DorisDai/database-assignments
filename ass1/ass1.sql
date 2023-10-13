@@ -127,7 +127,7 @@ begin
         end loop;
 
         if _noI then
-            _result := _result || E'\n  contains';
+            _result := _result || E'\n  no ingredients recorded';
         end if;
 
         return _result;
