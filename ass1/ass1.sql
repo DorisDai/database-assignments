@@ -90,7 +90,7 @@ as $$
     join Breweries on brewery = Breweries.id
     join Locations on Locations.id = located_in
     group by country
-    where country ~* ('.*' || pattern || '.*');
+    having country ~* ('.*' || pattern || '.*');
 
 
 $$
