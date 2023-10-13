@@ -117,9 +117,9 @@ begin
         where beer = _beerID;
 
         if ( not found) then
-            return _result || char(10) || "  no ingredients recorded"; 
+            return _result || char(10) || '  no ingredients recorded'; 
         else
-            _result := _result || char(10) || "  contains";
+            _result := _result || char(10) || '  contains';
             for _beer in 
                 select itype, I.name into _itype, _ingredient
                 from Contains join Ingredients on ingredient = id
