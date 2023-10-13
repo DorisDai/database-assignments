@@ -122,7 +122,7 @@ begin
             _result := _result || E'\n  contains\n' || format('    %s (%s)', _beer.name, _beer.itype);
         end loop;
 
-        if _noI = true
+        if _noI then
             _result := _result || E'\n  contains';
         end if;
 
