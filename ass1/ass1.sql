@@ -115,7 +115,7 @@ begin
             from Contains 
             join Ingredients I on ingredient = id 
             where beer = _beerID) then
-            _result :=  _result || E'\n  no ingredients recorded'; 
+            _result :=  _result || E'  no ingredients recorded'; 
             return _result;
         else
             _result := _result || E'\n  contains';
