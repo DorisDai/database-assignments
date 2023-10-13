@@ -118,13 +118,13 @@ begin
             _result :=  _result || E'\n  no ingredients recorded'; 
             return _result;
         else
-            _result := _result || char(10) || '  contains';
+            _result := _result || E'\n  contains';
             for _beer in 
                 select itype, I.name
                 from Contains join Ingredients on ingredient = id
                 where beer = _beerID;
             loop
-                _result := _result || char(10) || _beer.name || format(' (%s)'), _beer.itype;
+                _result := _result || E'\n' || _beer.name || format(' (%s)'), _beer.itype;
             end loop;
         end if;  
 
