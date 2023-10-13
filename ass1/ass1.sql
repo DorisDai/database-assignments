@@ -126,7 +126,7 @@ begin
                 where beer = _beerID
                 order by I.name
             loop
-                _result := _result || E'\n' || format('    %s (%s)', _result, _beer.name, _beer.itype);
+                _result := _result || E'\n' || format('    %s (%s)', _beer.name, _beer.itype);
             end loop;
         end if;  
 
