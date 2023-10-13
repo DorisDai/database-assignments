@@ -123,6 +123,7 @@ begin
                 select itype, I.name
                 from Contains join Ingredients I on ingredient = id
                 where beer = _beerID
+                order by I.name
             loop
                 _result := format('%s\n    %s (%s)', _result, _beer.name, _beer.itype);
             end loop;
