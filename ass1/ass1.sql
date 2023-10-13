@@ -91,19 +91,48 @@ as $$
     join Locations on Locations.id = located_in
     group by country
     having country ~* ('.*' || pattern || '.*');
-
-
 $$
 language sql ;
 --
 ---- Q7
 --
---create or replace function
---    Q7(...) returns ...
---as $$
---...
---$$
---language plpgsql ;
+create or replace function
+   Q7(_beerID integer) returns text
+as $$
+declare
+    _result text;
+    _beerName text;
+    _beer record;
+    _itype text;
+    _ingredient text;
+begin
+    select name into _beerName from Beers where id = _beerID;
+    if (not found) then
+        return 'No such beer (%)', _beerID;
+    else 
+        _result := '"%"', _beerName;
+
+        select itype, I.name
+        from Contains join Ingredients on ingredient = id
+        where beer = _beerID;
+
+        if ( not found) then
+            return _result || char(10) || "  no ingredients recorded"; 
+        else
+            _result := _result || char(10) || "  contains";
+            for _beer in 
+                select itype, I.name into _itype, _ingredient
+                from Contains join Ingredients on ingredient = id
+                where beer = _beerID;
+            loop
+                _result := _result || char(10) || _beer._ingredient || ' (%)', _itype;
+            end loop;
+        end if;  
+
+        return _result;
+end;
+$$
+language plpgsql ;
 --
 ---- Q8
 --
