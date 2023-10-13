@@ -69,12 +69,14 @@ as
 --
 ---- Q5
 --
---create or replace function
---    Q5(...) returns ...
---as $$
---...
---$$
---language sql ;
+create or replace function
+   Q5(pattern text) returns table(beer text, container text, std_drinks numeric)
+as $$
+    select name, sold_in, volume * ABV * 0.0008
+    from Beers
+    where name ~ '.*' || $1 || '.*'
+$$
+language sql ;
 --
 ---- Q6
 --
