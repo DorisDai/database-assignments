@@ -122,7 +122,8 @@ begin
                 _result := _result || E'\n  contains:\n';
             else 
                 _noI := false;
-                _result := _result || format('    %s (%s)', _beer.name, _beer.itype);
+                -- use escape string to enable escape character '\'
+                _result := _result || E'\n' || format('    %s (%s)', _beer.name, _beer.itype);
             end if;
         end loop;
 
