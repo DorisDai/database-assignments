@@ -72,9 +72,9 @@ as
 create or replace function
    Q5(pattern text) returns table(beer text, container text, std_drinks numeric)
 as $$
-    select name, volume || ' ' || sold_in, volume * ABV * 0.0008::numeric(2,1)
+    select name, volume || 'ml ' || sold_in, (volume * ABV * 0.0008)::numeric(2,1)
     from Beers
-    where name ~ ('.*' || pattern || '.*');
+    where name ~* ('.*' || pattern || '.*');
 $$
 language sql ;
 --
