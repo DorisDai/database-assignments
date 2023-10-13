@@ -115,9 +115,10 @@ begin
             from Contains 
             join Ingredients I on ingredient = id 
             where beer = _beerID) then
-            _result :=  _result || E'  no ingredients recorded'; 
+            _result :=  _result || E'\n  no ingredients recorded'; 
             return _result;
         else
+
             _result := _result || E'\n  contains';
             for _beer in 
                 select itype, I.name
@@ -125,7 +126,7 @@ begin
                 where beer = _beerID
                 order by I.name
             loop
-                _result := format('%s\n    %s (%s)', _result, _beer.name, _beer.itype);
+                _result := _result || E'\n' || format('    %s (%s)', _result, _beer.name, _beer.itype);
             end loop;
         end if;  
 
