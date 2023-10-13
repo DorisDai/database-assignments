@@ -111,7 +111,7 @@ begin
     else 
         -- \n is not useable in format string
         _result := format('"%s"', _beerName);
-
+        _noI := true;
         for _beer in 
             select itype, I.name
             from Contains join Ingredients I on ingredient = id
