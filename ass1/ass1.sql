@@ -118,7 +118,7 @@ begin
             where beer = _beerID
             order by I.name
         loop
-            _noI := false
+            _noI := false;
             _result := _result || E'\n  contains\n' || format('    %s (%s)', _beer.name, _beer.itype);
         end loop;
 
