@@ -103,8 +103,6 @@ declare
     _result text;
     _beerName text;
     _beer record;
-    _itype text;
-    _ingredient text;
 begin
     select name into _beerName from Beers where id = _beerID;
     if (not found) then
@@ -116,21 +114,22 @@ begin
         from Contains join Ingredients on ingredient = id
         where beer = _beerID;
 
-        if ( not found) then
+        if (not found) then
             _result :=  _result || char(10) || '  no ingredients recorded'; 
             return _result;
         else
             _result := _result || char(10) || '  contains';
             for _beer in 
-                select itype, I.name into _itype, _ingredient
+                select itype, I.name
                 from Contains join Ingredients on ingredient = id
                 where beer = _beerID;
             loop
-                _result := _result || char(10) || _beer._ingredient || format(' (%)'), _itype;
+                _result := _result || char(10) || _beer.name || format(' (%)'), _beer.itype;
             end loop;
         end if;  
 
         return _result;
+    end if;
 end;
 $$
 language plpgsql ;
