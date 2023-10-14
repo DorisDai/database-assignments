@@ -223,7 +223,8 @@ begin
     _empty := true;
     select name into _breweryName from Breweries where id = breweryID;
     if (not found) then
-        return (format('No such brewery (%s)', breweryID), 'none');
+        _breweryName := format('No such brewery (%s)', breweryID);
+        return (_breweryName, 'none');
     else 
         for _cBrName in select * from collabBrs(breweryID)
         loop
