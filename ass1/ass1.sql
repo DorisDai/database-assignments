@@ -231,6 +231,7 @@ begin
         for _cBrName in select * from collabBrs(breweryID)
         loop
             raise notice '%', _empty;
+            raise notice '%', _cBrName;
             if _empty then
                 _result.brewery := _breweryName;
                 _result.collaborator := _cBrName;
