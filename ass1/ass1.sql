@@ -224,19 +224,19 @@ begin
     select name into _breweryName from Breweries where id = breweryID;
     if (not found) then
         _breweryName := format('No such brewery (%s)', breweryID);
-        return (_breweryName, 'none');
+        return row(_breweryName, 'none');
     else 
         for _cBrName in select * from collabBrs(breweryID)
         loop
             if _empty then
-                return next (_breweryName, _cBrName);
+                return next row(_breweryName, _cBrName);
             end if;
             _empty := false;
-            return next (null, _cBrName);
+            return next row(null, _cBrName);
         end loop;
 
         if _empty then
-            return (_breweryName, 'none');
+            return row(_breweryName, 'none');
         end if;
     end if;
 
