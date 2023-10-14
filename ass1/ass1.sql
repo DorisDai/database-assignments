@@ -181,7 +181,7 @@ begin
             beerResult.ingredientNames := 'no hops recorded';
         end if;
         return next beerResult;
-    end loop
+    end loop;
 $$
 language plpgsql ;
 
