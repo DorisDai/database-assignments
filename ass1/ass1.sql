@@ -138,13 +138,53 @@ language plpgsql ;
 --
 ---- Q8
 --
---create or replace function
---    Q8(...) returns ...
---as $$
---...
---$$
---language plpgsql ;
---
+drop type if exists BeerHops cascade;
+create type BeerHops as (beer text, brewery text, hops text);
+
+create or replace function 
+    hopsUsed(pattern text) return table(beerHUId integer, ingredientNames text)
+as $$
+    select Beers.id, string_agg(Ingredients.name, ',')
+    from Beers
+    join Contains on id = beer
+    join Ingredients on ingredient = Ingredients.name
+    where Beers.name ~* ('.*' || pattern '.*') and itype = 'hop';
+    group by Beers.id;
+$$
+language sql ;
+
+create or replace function 
+    breweriesInvolved(pattern text) return table(beerBIId integer, beerName text, brNames text)
+as $$
+    select Beers.id, Beers.name, string_agg(Breweries.name, '+')
+    from Beers 
+    join Brewed_by on Beers.id = beer
+    join Breweries on Breweries.id = brewery
+    where Beers.name ~* ('.*' || pattern '.*')
+    group by Beers.id;
+
+$$
+language sql ;
+
+create or replace function
+    Q8(pattern text) returns setof BeerHops
+as $$
+declare
+    beerResult record;
+begin
+    for beerResult in 
+        select beerName, brNames, ingredientNames 
+        from breweriesInvolved 
+        left join hopsUsed on beerHUId = beerBIId
+    loop
+        if ingredientNames is null then
+            ingredientNames := 'no hops recorded';
+        end if;
+        return next (beerName, brNames, ingredientNames);
+    end loop
+$$
+language plpgsql ;
+
 ---- Q9
 --
 --create or replace function
