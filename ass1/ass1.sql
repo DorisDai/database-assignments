@@ -182,6 +182,7 @@ begin
         end if;
         return next beerResult;
     end loop;
+end;
 $$
 language plpgsql ;
 
