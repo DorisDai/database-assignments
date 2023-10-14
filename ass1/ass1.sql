@@ -142,7 +142,7 @@ drop type if exists BeerHops cascade;
 create type BeerHops as (beer text, brewery text, hops text);
 
 create or replace function 
-    hopsUsed(pattern text) return table(beerHUId integer, ingredientNames text)
+    hopsUsed(pattern text) returns table(beerHUId integer, ingredientNames text)
 as $$
     select Beers.id, string_agg(Ingredients.name, ',')
     from Beers
@@ -154,7 +154,7 @@ $$
 language sql ;
 
 create or replace function 
-    breweriesInvolved(pattern text) return table(beerBIId integer, beerName text, brNames text)
+    breweriesInvolved(pattern text) returns table(beerBIId integer, beerName text, brNames text)
 as $$
     select Beers.id, Beers.name, string_agg(Breweries.name, '+')
     from Beers 
