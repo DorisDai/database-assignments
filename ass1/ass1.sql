@@ -188,10 +188,58 @@ language plpgsql ;
 
 ---- Q9
 --
---create or replace function
---    Q9(...) returns ...
---as $$
---...
---$$
---language plpgsql ;
+
+create or replace function 
+    collabBrs(breweryID integer) returns table(collabBrName text)
+as $$
+    select distinct Breweries.name
+    from Breweries
+    left join Brewed_by on id = brewery
+    join Beers on Beers.id = beer
+    -- suppose brewery id is valid
+    where Beers.id in (
+        -- the beers made by breweryID
+        select Beers.id as beerID
+        from Breweries
+        left join Brewed_by on id = brewery
+        join Beers on Beers.id = beer
+        where Breweries.id = breweryID
+    ) and Breweries.id != breweryID;
+$$
+language sql;
+
+
+drop type if exists Collab cascade;
+create type Collab as (brewery text, collaborator text);
+
+create or replace function
+    Q9(breweryID integer) returns setof Collab
+as $$
+declare
+    _breweryName text;
+    _empty boolean;
+    _cBrName text;
+begin
+    _empty := true;
+    select name into _breweryName from Breweries where id = breweryID;
+    if (not found) then
+        return (format('No such brewery (%s)', breweryID), 'none');
+    else 
+        for _cBrName in select * from collabBrs(breweryID)
+        loop
+            if _empty then
+                return next (_breweryName, _cBrName);
+            end if;
+            _empty := false;
+            return next (null, _cBrName);
+        end loop;
+
+        if _empty then
+            return (_breweryName, 'none');
+        end if;
+    end if;
+
+end;
+$$
+language plpgsql ;
 --
