@@ -219,25 +219,34 @@ declare
     _breweryName text;
     _empty boolean;
     _cBrName text;
+    _result Collab;
 begin
     _empty := true;
     select name into _breweryName from Breweries where id = breweryID;
     if (not found) then
-        _breweryName := format('No such brewery (%s)', breweryID);
-        return next row(_breweryName, 'none');
+        _result.brewery := format('No such brewery (%s)', breweryID);
+        _result.collaborator := 'none';
+        return next _result;
     else 
         for _cBrName in select * from collabBrs(breweryID)
         loop
-	    raise notice '_cbrname: %', _cBrName;
             if _empty then
-                return next row(_breweryName, _cBrName);
+                _result.brewery := _breweryName;
+                _result.collaborator := _cBrName;
+                return next _result;
+            else
+                _empty := false;
+                _result.brewery := null;
+                _result.collaborator := _cBrName;
+                return next _result;
             end if;
-            _empty := false;
-            return next row(null, _cBrName);
+            
         end loop;
 
         if _empty then
-            return next row(_breweryName, 'none');
+            _result.brewery := _breweryName;
+            _result.collaborator := 'none';
+            return next _result;
         end if;
     end if;
 
