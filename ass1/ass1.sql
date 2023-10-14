@@ -148,7 +148,7 @@ as $$
     from Beers
     join Contains on id = beer
     join Ingredients on ingredient = Ingredients.name
-    where Beers.name ~* ('.*' || pattern '.*') and itype = 'hop';
+    where Beers.name ~* ('.*' || pattern '.*') and itype = 'hop'
     group by Beers.id;
 $$
 language sql ;
