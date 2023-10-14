@@ -144,7 +144,7 @@ create type BeerHops as (beer text, brewery text, hops text);
 create or replace function 
     hopsUsed(pattern text) returns table(beerHUId integer, ingredientNames text)
 as $$
-    select Beers.id, string_agg(Ingredients.name, ',')
+    select Beers.id, string_agg(Ingredients.name, ',' order by Ingredients.name)
     from Beers
     join Contains on id = beer
     join Ingredients on ingredient = Ingredients.id
@@ -156,7 +156,7 @@ language sql ;
 create or replace function 
     breweriesInvolved(pattern text) returns table(beerBIId integer, beerName text, brNames text)
 as $$
-    select Beers.id, Beers.name, string_agg(Breweries.name, '+')
+    select Beers.id, Beers.name, string_agg(Breweries.name, '+' order by Breweries.name)
     from Beers 
     join Brewed_by on Beers.id = beer
     join Breweries on Breweries.id = brewery
@@ -174,8 +174,8 @@ declare
 begin
     for beerResult in 
         select beerName, brNames, ingredientNames 
-        from breweriesInvolved 
-        left join hopsUsed on beerHUId = beerBIId
+        from breweriesInvolved(pattern) 
+        left join hopsUsed(pattern) on beerHUId = beerBIId
     loop
         if beerResult.ingredientNames is null then
             beerResult.ingredientNames := 'no hops recorded';
