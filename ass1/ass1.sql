@@ -230,6 +230,7 @@ begin
     else 
         for _cBrName in select * from collabBrs(breweryID)
         loop
+            raise notice '%', _empty;
             if _empty then
                 _result.brewery := _breweryName;
                 _result.collaborator := _cBrName;
