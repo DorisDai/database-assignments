@@ -177,10 +177,10 @@ begin
         from breweriesInvolved 
         left join hopsUsed on beerHUId = beerBIId
     loop
-        if ingredientNames is null then
-            ingredientNames := 'no hops recorded';
+        if beerResult.ingredientNames is null then
+            beerResult.ingredientNames := 'no hops recorded';
         end if;
-        return next (beerName, brNames, ingredientNames);
+        return next beerResult;
     end loop
 $$
 language plpgsql ;
