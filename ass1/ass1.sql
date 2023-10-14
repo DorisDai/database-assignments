@@ -244,7 +244,7 @@ begin
             end if;
             
         end loop;
-
+        raise notice '%', _empty;
         if _empty then
             _result.brewery := _breweryName;
             _result.collaborator := 'none';
