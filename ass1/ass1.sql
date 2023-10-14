@@ -147,7 +147,7 @@ as $$
     select Beers.id, string_agg(Ingredients.name, ',')
     from Beers
     join Contains on id = beer
-    join Ingredients on ingredient = Ingredients.name
+    join Ingredients on ingredient = Ingredients.id
     where Beers.name ~* ('.*' || pattern '.*') and itype = 'hop'
     group by Beers.id;
 $$
