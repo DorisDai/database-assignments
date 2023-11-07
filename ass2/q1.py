@@ -26,15 +26,17 @@ try:
   db = psycopg2.connect("dbname=ass2")
   cur = db.cursor()
   cur.execute(selectString)
-  lS = [] 
-  for lStudentCount in cur.fetchall():
-    print(f"{lStudentCount[0]} {lStudentCount[1]}")
-  # show term, #locals, #internationals, fraction
-    lS.append()
+  lStudentCount = cur.fetchall()
+
   ifINTL = '='
   cur.execute(selectString)
-  # ... add your code here ...
+  iStudentCount = cur.fetchall()
+  for lterm, lSCount in lStudentCount:
+    for sterm, iScount in iStudentCount:
+      if (lterm == sterm):
 
+        print(f"{sterm} {lSCount:6d} {iScount:6d} {lSCount/iScount:6.1f}")
+          
 except Exception as err:
   print(err)
 finally:
