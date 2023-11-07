@@ -1,0 +1,5 @@
+ssh z5314283@d2.cse.unsw.edu.au
+source /localstorage/$USER/env
+cd 3311/ass2/
+
+give cs3311 ass ass.sql
