@@ -45,10 +45,10 @@ try:
       termCode.append(str(year)+'T'+str(tnum))
     year += 1
 
-  cur.execute(localStString, ','.join(termCode))
+  cur.execute(localStString, [','.join(termCode)])
   lStudentCount = cur.fetchall()
 
-  cur.execute(interStString)
+  cur.execute(interStString, [','.join(termCode)])
   iStudentCount = cur.fetchall()
   for lterm, lSCount in lStudentCount:
     for sterm, iScount in iStudentCount:
