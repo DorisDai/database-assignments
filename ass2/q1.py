@@ -44,12 +44,12 @@ try:
     for tnum in [0, 1, 2, 3]:
       termCode.append('(' + str(year) + 'T' + str(tnum) + ')')
     year += 1
-
-  cur.execute(localStString, ['[' + ''.join(termCode)] + ']')
-  print(cur.mogrify(localStString, ['[' + ''.join(termCode)] + ']'))
+  finalstring = '['
+  cur.execute(localStString, ['[' + ''.join(termCode) + ']'])
+  print(cur.mogrify(localStString, ['[' + ''.join(termCode) + ']']))
   lStudentCount = cur.fetchall()
 
-  cur.execute(interStString, ['[' + ''.join(termCode)] + ']')
+  cur.execute(interStString, ['[' + ''.join(termCode) + ']'])
   iStudentCount = cur.fetchall()
   for lterm, lSCount in lStudentCount:
     for sterm, iScount in iStudentCount:
