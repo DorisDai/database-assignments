@@ -20,7 +20,7 @@ join Terms T on Pe.term = T.id
 join Students S on S.id = Pe.student
 where S.status != 'INTL'
 group by T.code
-having T.code ~ (19T[1-3]|20T[0-3]|21T[0-3]|22T[0-3]|23T[0-3])
+having T.code ~ '(19T[1-3]|20T[0-3]|21T[0-3]|22T[0-3]|23T[0-3])'
 order by T.code
 """
 
@@ -31,7 +31,7 @@ join Terms T on Pe.term = T.id
 join Students S on S.id = Pe.student
 where S.status = 'INTL'
 group by T.code
-having T.code ~ (19T[1-3]|20T[0-3]|21T[0-3]|22T[0-3]|23T[0-3])
+having T.code ~ '(19T[1-3]|20T[0-3]|21T[0-3]|22T[0-3]|23T[0-3])'
 order by T.code
 """
 
