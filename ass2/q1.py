@@ -11,25 +11,33 @@ import re
 ### set up some globals
 
 db = None
-ifINTL= '!='
+
 ### process command-line args
-selectString = f"""
+localStString = f"""
 select T.code, count(distinct S.id)
 from Program_enrolments Pe
 join Terms T on Pe.term = T.id
 join Students S on S.id = Pe.student
-where S.status {ifINTL} 'INTL'
+where S.status != 'INTL'
+group by T.code
+"""
+
+interStString = f"""
+select T.code, count(distinct S.id)
+from Program_enrolments Pe
+join Terms T on Pe.term = T.id
+join Students S on S.id = Pe.student
+where S.status == 'INTL'
 group by T.code
 """
 
 try:
   db = psycopg2.connect("dbname=ass2")
   cur = db.cursor()
-  cur.execute(selectString)
+  cur.execute(localStString)
   lStudentCount = cur.fetchall()
 
-  ifINTL = '='
-  cur.execute(selectString)
+  cur.execute(interStString)
   iStudentCount = cur.fetchall()
   for lterm, lSCount in lStudentCount:
     for sterm, iScount in iStudentCount:
