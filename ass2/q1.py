@@ -40,11 +40,11 @@ try:
   cur = db.cursor()
   year = 20
   cur.execute(localStString)
-  print(cur.mogrify(localStString))
   lStudentCount = cur.fetchall()
 
   cur.execute(interStString)
   iStudentCount = cur.fetchall()
+  print('Term  #Locl  #Intl Proportion')
   for lterm, lSCount in lStudentCount:
     for sterm, iScount in iStudentCount:
       if (lterm == sterm):
