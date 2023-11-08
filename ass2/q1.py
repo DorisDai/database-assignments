@@ -46,9 +46,12 @@ try:
     year += 1
 
   cur.execute(localStString, [','.join(termCode)])
+  cur.mogrify(localStString, [','.join(termCode)])
   lStudentCount = cur.fetchall()
 
   cur.execute(interStString, [','.join(termCode)])
+
+  cur.mogrify(interStString, [','.join(termCode)])
   iStudentCount = cur.fetchall()
   for lterm, lSCount in lStudentCount:
     for sterm, iScount in iStudentCount:
