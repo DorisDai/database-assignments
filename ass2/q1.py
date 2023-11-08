@@ -27,7 +27,7 @@ select T.code, count(distinct S.id)
 from Program_enrolments Pe
 join Terms T on Pe.term = T.id
 join Students S on S.id = Pe.student
-where S.status == 'INTL'
+where S.status = 'INTL'
 group by T.code
 """
 

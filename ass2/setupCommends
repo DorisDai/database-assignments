@@ -2,4 +2,6 @@ ssh z5314283@d2.cse.unsw.edu.au
 source /localstorage/$USER/env
 cd 3311/ass2/
 
+git commit -am "" && git push
+
 give cs3311 ass ass.sql
