@@ -39,17 +39,17 @@ try:
   db = psycopg2.connect("dbname=ass2")
   cur = db.cursor()
   year = 20
-  termCode = ['(19T1)', '(19T2)', '(19T3)']
+  termCode = ['19T1', '19T2', '19T3']
   while year <= 23:
     for tnum in [0, 1, 2, 3]:
-      termCode.append('(' + str(year) + 'T' + str(tnum) + ')')
+      termCode.append(str(year) + 'T' + str(tnum))
     year += 1
   finalstring = '['
-  cur.execute(localStString, ['[' + ''.join(termCode) + ']'])
-  print(cur.mogrify(localStString, ['[' + ''.join(termCode) + ']']))
+  cur.execute(localStString, ['[' + '|'.join(termCode) + ']'])
+  print(cur.mogrify(localStString, ['[' + '|'.join(termCode) + ']']))
   lStudentCount = cur.fetchall()
 
-  cur.execute(interStString, ['[' + ''.join(termCode) + ']'])
+  cur.execute(interStString, ['[' + '|'.join(termCode) + ']'])
   iStudentCount = cur.fetchall()
   for lterm, lSCount in lStudentCount:
     for sterm, iScount in iStudentCount:
