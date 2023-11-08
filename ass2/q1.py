@@ -31,7 +31,7 @@ join Terms T on Pe.term = T.id
 join Students S on S.id = Pe.student
 where S.status = 'INTL'
 group by T.code
-having T.code ~ %s
+having T.code ~ (19T[1-3]|20T[0-3]|21T[0-3]|22T[0-3]|23T[0-3])
 order by T.code
 """
 
@@ -39,17 +39,11 @@ try:
   db = psycopg2.connect("dbname=ass2")
   cur = db.cursor()
   year = 20
-  termCode = ['19T1', '19T2', '19T3']
-  while year <= 23:
-    for tnum in [0, 1, 2, 3]:
-      termCode.append(str(year) + 'T' + str(tnum))
-    year += 1
-  finalstring = '['
-  cur.execute(localStString, ['[' + '|'.join(termCode) + ']'])
-  print(cur.mogrify(localStString, ['[' + '|'.join(termCode) + ']']))
+  cur.execute(localStString)
+  print(cur.mogrify(localStString))
   lStudentCount = cur.fetchall()
 
-  cur.execute(interStString, ['[' + '|'.join(termCode) + ']'])
+  cur.execute(interStString)
   iStudentCount = cur.fetchall()
   for lterm, lSCount in lStudentCount:
     for sterm, iScount in iStudentCount:
