@@ -51,19 +51,19 @@ try:
   for term, sf, nResp, name, nStu in resultL:
 
     if sf == None:
-      sf = f"{'?':6} "
+      sf = f"{'?':>6} "
     else:
       print(type(sf))
       sf = f"{sf:6d} "
 
     if nResp == None:
-      nResp = f"{'?':6} "
+      nResp = f"{'?':>6} "
     else:
       nResp = f"{nResp:6d} "
 
     if name == None:
-      name = f"{'?':6}"
-    print(f"{term:6} " + sf + nResp + f"{nStu:6d}  " + name)
+      name = f"{'?':>6}"
+    print(f"{term} " + sf + nResp + f"{nStu:6d}  " + name)
   
   #print(subjectInfo)  #debug
 
