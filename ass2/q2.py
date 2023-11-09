@@ -57,9 +57,6 @@ try:
 
   # ... add your code here ...
 
-except Exception as err:
-  print('db')
-  print(err)
 finally:
   if db:
     db.close()

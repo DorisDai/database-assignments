@@ -44,7 +44,6 @@ def getSubject(db, subject):
   print(cur.mogrify(qury, [subject]))
   cur.execute(qury, [subject])
   subjectInfo = cur.fetchone()
-  print('dsxb')
   if not subjectInfo:
     return None
   else:
