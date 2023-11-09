@@ -41,7 +41,7 @@ def getStudent(db,zid):
 def getSubject(db, subject):
   cur = db.cursor()
   qury = 'select s.* from Subjects where code = s%'
-  cur.exeute(qury, subject)
+  cur.execute(qury, subject)
   subjectInfo = cur.fetchone()
   if not subjectInfo:
     return None
