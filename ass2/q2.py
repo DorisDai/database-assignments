@@ -40,20 +40,19 @@ try:
   """
   db = psycopg2.connect("dbname=ass2")
   subjectInfo = getSubject(db,subject)
-  print('db')
   if not subjectInfo:
     print(f"Invalid subject code {subject}")
     exit(1)
   cur = db.cursor()
   cur.execute(qury, [subjectInfo[1]])
-  print(cur.mogrify(qury, [subjectInfo[1]]))
   resultL = cur.fetchall()
+  print(f"{subject} Computer Systems Fundamentals")
+  print("Term  Satis  #resp   #stu  Convenor")
   for term, sf, nResp, name, nStu in resultL:
 
     if sf == None:
       sf = f"{'?':>6} "
     else:
-      print(type(sf))
       sf = f"{sf:6d} "
 
     if nResp == None:
