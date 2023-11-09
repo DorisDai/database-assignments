@@ -40,6 +40,7 @@ try:
   """
   db = psycopg2.connect("dbname=ass2")
   subjectInfo = getSubject(db,subject)
+  print('db')
   if not subjectInfo:
     print(f"Invalid subject code {subject}")
     exit(1)
