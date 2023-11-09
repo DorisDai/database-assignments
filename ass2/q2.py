@@ -53,6 +53,7 @@ try:
     if sf == None:
       sf = "?"
     else:
+      print(type(sf))
       sf = f"{sf:6d}"
 
     if nResp == None:
