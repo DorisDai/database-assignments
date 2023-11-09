@@ -64,7 +64,7 @@ try:
     if name == None:
       name = "?"
     else:
-      name = f"{sf:6d}"
+      name = f"{name:6d}"
 
     print(f"{term}" + sf + nResp + f"{nStu:6d}" + name)
   
