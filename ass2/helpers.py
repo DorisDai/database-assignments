@@ -40,7 +40,8 @@ def getStudent(db,zid):
 
 def getSubject(db, subject):
   cur = db.cursor()
-  qury = 'select s.* from Subjects where code = s%'
+  qury = 'select s.* from Subjects as s where code = s%'
+  print('dsxb')
   cur.execute(qury, [subject])
   subjectInfo = cur.fetchone()
   if not subjectInfo:
