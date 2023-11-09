@@ -46,7 +46,7 @@ try:
   cur = db.cursor()
   cur.execute(qury, [subjectInfo[1]])
   resultL = cur.fetchall()
-  print(f"{subject} Computer Systems Fundamentals")
+  print(f"{subject} {subjectInfo[2]}")
   print("Term  Satis  #resp   #stu  Convenor")
   for term, sf, nResp, name, nStu in resultL:
 
