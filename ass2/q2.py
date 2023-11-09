@@ -70,6 +70,8 @@ try:
 
   # ... add your code here ...
 # ???? why do we need catch db error ???
+except Exception as err:
+  print(err)
 finally:
   if db:
     db.close()
