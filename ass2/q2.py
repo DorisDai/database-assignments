@@ -63,7 +63,7 @@ try:
 
     if name == None:
       name = f"{'?':6}"
-    print(f"{term} " + sf + nResp + f"{nStu:6d}  " + name)
+    print(f"{term:6} " + sf + nResp + f"{nStu:6d}  " + name)
   
   #print(subjectInfo)  #debug
 
