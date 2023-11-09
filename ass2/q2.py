@@ -49,14 +49,30 @@ try:
   print(cur.mogrify(qury, [subjectInfo[1]]))
   resultL = cur.fetchall()
   for term, sf, nResp, name, nStu in resultL:
-    print(f"{term} {sf:6d} {nResp:6d} {nStu:6d} {name}")
+
+    if sf == None:
+      sf = "?"
+    else:
+      sf = f"{sf:6d}"
+
+    if nResp == None:
+      nResp = "?"
+    else:
+      nResp = f"{nResp:6d}"
+
+    if name == None:
+      name = "?"
+    else:
+      name = f"{sf:6d}"
+
+    print(f"{term}" + sf + nResp + f"{nStu:6d}" + name)
   
   #print(subjectInfo)  #debug
 
   # List satisfaction for subject over time
 
   # ... add your code here ...
-
+# ???? why do we need catch db error ???
 finally:
   if db:
     db.close()
