@@ -52,13 +52,13 @@ try:
     uocString = None
     for programName, reqName, reqType, minReq, maxReq, acadobjs in reqs:
       if minReq == maxReq:
-        uocString = minReq + 'UOC'
+        uocString = str(minReq) + 'UOC'
       elif minReq == None:
         uocString = None
       elif minReq == None:
-        uocString = 'up to ' + maxReq + ' UOC'
+        uocString = 'up to ' + str(maxReq) + ' UOC'
       elif maxReq == None:
-        uocString = 'at least ' + minReq + ' UOC'
+        uocString = 'at least ' + str(minReq) + ' UOC'
 
       if reqType == 'uoc':
         print(reqName + uocString)
