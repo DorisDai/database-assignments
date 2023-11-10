@@ -4,7 +4,7 @@
 import sys
 import psycopg2
 import re
-from helpers import getProgram, getStream, getSubject
+from helpers import getProgram, getStream, getSubject, checkGetItemNone
 
 # define any local helper functions here
 # ...
@@ -31,45 +31,49 @@ else:
 
 def printFormatRequirements(reqList):
   for programName, reqName, reqType, minReq, maxReq, acadobjs in reqs:
-      if minReq == maxReq:
-        uocString = str(minReq) + 'UOC'
-      elif minReq == None:
-        uocString = None
-      elif minReq == None:
-        uocString = 'up to ' + str(maxReq) + ' UOC'
-      elif maxReq == None:
-        uocString = 'at least ' + str(minReq) + ' UOC'
+    if minReq == maxReq:
+      uocString = str(minReq) + 'UOC'
+    elif minReq == None:
+      uocString = None
+    elif minReq == None:
+      uocString = 'up to ' + str(maxReq) + ' UOC'
+    elif maxReq == None:
+      uocString = 'at least ' + str(minReq) + ' UOC'
+    
+    if reqType == 'uoc':
+      print(reqName + ' ' + uocString)
+    elif reqType == 'elective':
+      print(uocString + ' courses from ' + reqName)
+      print('- ' + acadobjs)
+    elif reqType == 'free':
+      print(uocString + ' of ' + 'Free Electives')
+    elif reqType == 'gened':
+      print(uocString + ' of ' + 'General Education')
+    elif reqType == 'stream':
+      # suppose streams' minreq == maxreq 
+      print(str(minReq) + ' stream from ' + reqName)
+      streamList = acadobjs.split(',')
+      for strm in streamList:
+        currstrm = getStream(db, strm)
+        currstrmStr = checkGetItemNone(currstrm[2])
+        print('- ' + strm + ' ' + currstrmStr)
       
-      if reqType == 'uoc':
-        print(reqName + ' ' + uocString)
-      elif reqType == 'elective':
-        print(uocString + ' courses from ' + reqName)
-        print('- ' + acadobjs)
-      elif reqType == 'free':
-        print(uocString + ' of ' + 'Free Electives')
-      elif reqType == 'gened':
-        print(uocString + ' of ' + 'General Education')
-      elif reqType == 'stream':
-        # suppose streams' minreq == maxreq 
-        print(str(minReq) + ' stream from ' + reqName)
-        streamList = acadobjs.split(',')
-        for strm in streamList:
-          currstrm = getStream(db, strm)
-          print('- ' + currstrm[1] + ' ' + currstrm[2])
-        
-      elif reqType == 'core':
-        print('all courses from ' + reqName)
-        courseList = acadobjs.split(',')
-        for course in courseList:
-          if '{' in course:
-            alternativeC = course.split(';')
-            currCourse = getSubject(db, alternativeC[0][1:])
-            print('- ' + alternativeC[0][1:] + ' ' + currCourse[2])
-            currCourse = getSubject(db, alternativeC[1][:-1])
-            print('  or ' +alternativeC[1][:-1] + ' ' + currCourse[2])
-          else:
-            currCourse = getSubject(db, course)
-            print('- ' + course + ' ' + currCourse[2])
+    elif reqType == 'core':
+      print('all courses from ' + reqName)
+      courseList = acadobjs.split(',')
+      for course in courseList:
+        if '{' in course:
+          alternativeC = course.split(';')
+          currCourse = getSubject(db, alternativeC[0][1:])
+          currCourseStr = checkGetItemNone(currCourse)
+          print('- ' + alternativeC[0][1:] + ' ' + currCourseStr)
+          currCourse = getSubject(db, alternativeC[1][:-1])
+          currCourseStr = checkGetItemNone(currCourse)
+          print('  or ' + alternativeC[1][:-1] + ' ' + currCourseStr)
+        else:
+          currCourse = getSubject(db, course)
+          currCourseStr = checkGetItemNone(currCourse)
+          print('- ' + course + ' ' + currCourseStr)
 
 try:
   db = psycopg2.connect("dbname=ass2")

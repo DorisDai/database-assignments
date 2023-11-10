@@ -48,3 +48,9 @@ def getSubject(db, subject):
     return None
   else:
     return subjectInfo
+
+def checkGetItemNone(string):
+  if string == None:
+    return 'None'
+  else:
+    return string
