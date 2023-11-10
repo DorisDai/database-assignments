@@ -48,6 +48,7 @@ try:
     reqs = cur.fetchone()
     print(f"{code} {reqs[0]}")
     print("Academic Requirements:")
+    cur.execute(reqsql)
     reqs = cur.fetchall()
     uocString = None
     for programName, reqName, reqType, minReq, maxReq, acadobjs in reqs:
