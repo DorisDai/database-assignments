@@ -95,7 +95,7 @@ try:
       print(f"Invalid stream code {code}")
       exit(1)
     reqsql = """
-    select Pro.name, R.name, rtype, min_req, max_req, acadobjs
+    select Str.name, R.name, rtype, min_req, max_req, acadobjs
     from Requirements as R
     join Streams as Str on R.for_stream = Str.id
     where Str.code = %s
