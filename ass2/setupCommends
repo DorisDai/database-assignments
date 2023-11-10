@@ -1,4 +1,7 @@
 ssh z5314283@d2.cse.unsw.edu.au
+
+ssh nw-syd-vxdb2
+
 source /localstorage/$USER/env
 cd 3311/ass2/
 
