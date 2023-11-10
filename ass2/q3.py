@@ -32,7 +32,7 @@ else:
 def printFormatRequirements(reqList):
   for programName, reqName, reqType, minReq, maxReq, acadobjs in reqs:
     if minReq == maxReq:
-      uocString = str(minReq) + 'UOC'
+      uocString = str(minReq) + ' UOC'
     elif minReq == None:
       uocString = None
     elif minReq == None:
