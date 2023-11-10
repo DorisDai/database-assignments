@@ -86,11 +86,11 @@ try:
     where Pro.code = %s
     """
     cur = db.cursor()
-    cur.execute(reqsql, code)
+    cur.execute(reqsql, [code])
     reqs = cur.fetchone()
     print(f"{code} {reqs[0]}")
     print("Academic Requirements:")
-    cur.execute(reqsql, code)
+    cur.execute(reqsql, [code])
     reqs = cur.fetchall()
     uocString = None
     printFormatRequirements(reqs)
