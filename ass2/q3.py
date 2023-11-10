@@ -37,13 +37,39 @@ try:
       print(f"Invalid program code {code}")
       exit(1)
     #print(progInfo)  #debug
-    qury = """
-    select * 
+    reqsql = """
+    select Pro.name, R.name, rtype, min_req, max_req, acadobjs
     from Requirements as R
     join Programs as Pro on R.for_program = Pro.id
-    where Pro.code = '3707'
-
+    where Pro.code = '3778'
     """
+    cur = db.cursor()
+    cur.execute(reqsql)
+    reqs = cur.fetchone()
+    print(f"{code} {reqs[0]}")
+    print("Academic Requirements:")
+    reqs = cur.fetchall()
+    uocString = None
+    for programName, reqName, reqType, minReq, maxReq, acadobjs in reqs:
+      if minReq == maxReq:
+        uocString = minReq + 'UOC'
+      elif minReq == None:
+        uocString = None
+      elif minReq == None:
+        uocString = 'up to ' + maxReq + ' UOC'
+      elif maxReq == None:
+        uocString = 'at least ' + minReq + ' UOC'
+
+      if reqType == 'uoc':
+        print(reqName + uocString)
+      elif reqType == 'elective':
+        print(uocString + ' courses from ' + reqName)
+        print('- ' + acadobjs)
+
+
+
+      # if (reqType == "uoc")
+
     # List the rules for Program
 
     # ... add your code here ...
