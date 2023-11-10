@@ -59,7 +59,7 @@ try:
         uocString = 'up to ' + str(maxReq) + ' UOC'
       elif maxReq == None:
         uocString = 'at least ' + str(minReq) + ' UOC'
-
+      print(programName, reqName, reqType, minReq, maxReq, acadobjs)
       if reqType == 'uoc':
         print(reqName + uocString)
       elif reqType == 'elective':
@@ -85,8 +85,6 @@ try:
 
     # ... add your code here ...
 
-except Exception as err:
-  print(err)
 finally:
   if db:
     db.close()
