@@ -88,9 +88,9 @@ try:
             print(alternativeC[0])
             print(alternativeC[1][:-1])
             currCourse = getSubject(db, alternativeC[0][1:])
-            print('- ' + course + ' ' + currCourse[2])
+            print('- ' + alternativeC[0][1:] + ' ' + currCourse[2])
             currCourse = getSubject(db, alternativeC[1][:-1])
-            print('  or ' + course + ' ' + currCourse[2])
+            print('  or ' +alternativeC[1][:-1] + ' ' + currCourse[2])
           else:
             currCourse = getSubject(db, course)
             print('- ' + course + ' ' + currCourse[2])
