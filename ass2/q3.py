@@ -29,8 +29,10 @@ else:
   print("Invalid code")
   exit(1)
 
+# this function will format requirements list from database return result
 def printFormatRequirements(reqList):
   for programName, reqName, reqType, minReq, maxReq, acadobjs in reqs:
+    # fomat uoc string
     if minReq == maxReq:
       uocString = str(minReq) + ' UOC'
     elif minReq == None:
@@ -40,6 +42,7 @@ def printFormatRequirements(reqList):
     elif maxReq == None:
       uocString = 'at least ' + str(minReq) + ' UOC'
     
+    # format every kinds of requirement types
     if reqType == 'uoc':
       print(reqName + ' ' + uocString)
     elif reqType == 'elective':
@@ -61,8 +64,10 @@ def printFormatRequirements(reqList):
     elif reqType == 'core':
       print('all courses from ' + reqName)
       courseList = acadobjs.split(',')
+      # if course term is none, it will be converted to string none
       for course in courseList:
         if '{' in course:
+          # print course with its alternatives
           alternativeC = course.split(';')
           currCourse = getSubject(db, alternativeC[0][1:])
           currCourseStr = convertNoneToString(currCourse[2])
@@ -82,7 +87,7 @@ try:
     if not progInfo:
       print(f"Invalid program code {code}")
       exit(1)
-    #print(progInfo)  #debug
+    # select string for programs
     reqsql = """
     select Pro.name, R.name, rtype, min_req, max_req, acadobjs
     from Requirements as R
@@ -94,6 +99,7 @@ try:
     if not strmInfo:
       print(f"Invalid stream code {code}")
       exit(1)
+    # select string for streams
     reqsql = """
     select Str.name, R.name, rtype, min_req, max_req, acadobjs
     from Requirements as R
@@ -105,11 +111,12 @@ try:
   reqs = cur.fetchone()
   print(f"{code} {reqs[0]}")
   print("Academic Requirements:")
+
   cur.execute(reqsql, [code])
   reqs = cur.fetchall()
-  uocString = None
   printFormatRequirements(reqs)
-
+except Exception as err:
+  print(err)
 finally:
   if db:
     db.close()
