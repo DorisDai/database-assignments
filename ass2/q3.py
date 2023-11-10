@@ -29,29 +29,8 @@ else:
   print("Invalid code")
   exit(1)
 
-try:
-  db = psycopg2.connect("dbname=ass2")
-  if codeOf == "program":
-    progInfo = getProgram(db,code)
-    if not progInfo:
-      print(f"Invalid program code {code}")
-      exit(1)
-    #print(progInfo)  #debug
-    reqsql = """
-    select Pro.name, R.name, rtype, min_req, max_req, acadobjs
-    from Requirements as R
-    join Programs as Pro on R.for_program = Pro.id
-    where Pro.code = '3778'
-    """
-    cur = db.cursor()
-    cur.execute(reqsql)
-    reqs = cur.fetchone()
-    print(f"{code} {reqs[0]}")
-    print("Academic Requirements:")
-    cur.execute(reqsql)
-    reqs = cur.fetchall()
-    uocString = None
-    for programName, reqName, reqType, minReq, maxReq, acadobjs in reqs:
+def printFormatRequirements(reqList):
+  for programName, reqName, reqType, minReq, maxReq, acadobjs in reqs:
       if minReq == maxReq:
         uocString = str(minReq) + 'UOC'
       elif minReq == None:
@@ -91,6 +70,30 @@ try:
           else:
             currCourse = getSubject(db, course)
             print('- ' + course + ' ' + currCourse[2])
+
+try:
+  db = psycopg2.connect("dbname=ass2")
+  if codeOf == "program":
+    progInfo = getProgram(db,code)
+    if not progInfo:
+      print(f"Invalid program code {code}")
+      exit(1)
+    #print(progInfo)  #debug
+    reqsql = """
+    select Pro.name, R.name, rtype, min_req, max_req, acadobjs
+    from Requirements as R
+    join Programs as Pro on R.for_program = Pro.id
+    where Pro.code = %s
+    """
+    cur = db.cursor()
+    cur.execute(reqsql, code)
+    reqs = cur.fetchone()
+    print(f"{code} {reqs[0]}")
+    print("Academic Requirements:")
+    cur.execute(reqsql)
+    reqs = cur.fetchall()
+    uocString = None
+    printFormatRequirements(reqs)
 
 
 
