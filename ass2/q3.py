@@ -37,7 +37,13 @@ try:
       print(f"Invalid program code {code}")
       exit(1)
     #print(progInfo)  #debug
+    qury = """
+    select * 
+    from Requirements as R
+    join Programs as Pro on R.for_program = Pro.id
+    where Pro.code = '3707'
 
+    """
     # List the rules for Program
 
     # ... add your code here ...
