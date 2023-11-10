@@ -72,7 +72,7 @@ try:
         print(uocString + ' of ' + 'General Education')
       elif reqType == 'stream':
         # suppose streams' minreq == maxreq 
-        print(str(minReq) + ' from ' + reqName)
+        print(str(minReq) + ' stream from ' + reqName)
         streamList = acadobjs.split(',')
         for strm in streamList:
           currstrm = getStream(db, strm)
@@ -84,13 +84,13 @@ try:
         for course in courseList:
           if '{' in course:
             alternativeC = course.split(';')
-            currCourse = getSubject(db, alternativeC[0])
-            print('- ' + course + currCourse[2])
-            currCourse = getSubject(db, alternativeC[1])
-            print('  or ' + course + currCourse[2])
+            currCourse = getSubject(db, alternativeC[0][1:])
+            print('- ' + course + ' ' + currCourse[2])
+            currCourse = getSubject(db, alternativeC[1][1:])
+            print('  or ' + course + ' ' + currCourse[2])
           else:
             currCourse = getSubject(db, course)
-            print('- ' + course + currCourse[2])
+            print('- ' + course + ' ' + currCourse[2])
 
 
 
