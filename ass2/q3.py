@@ -85,7 +85,7 @@ try:
           if '{' in course:
             alternativeC = course.split(';')
             print(alternativeC)
-            print(alternativeC[0])
+            print(alternativeC[1])
             print(alternativeC[1][:-1])
             currCourse = getSubject(db, alternativeC[0][1:])
             print('- ' + alternativeC[0][1:] + ' ' + currCourse[2])
