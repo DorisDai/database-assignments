@@ -49,9 +49,9 @@ def printFormatRequirements(reqList):
       print(uocString + ' courses from ' + reqName)
       print('- ' + acadobjs)
     elif reqType == 'free':
-      print(uocString + ' of ' + 'Free Electives')
+      print(uocString + ' of ' + reqName)
     elif reqType == 'gened':
-      print(uocString + ' of ' + 'General Education')
+      print(uocString + ' of ' + reqName)
     elif reqType == 'stream':
       # suppose streams' minreq == maxreq 
       print(str(minReq) + ' stream from ' + reqName)
