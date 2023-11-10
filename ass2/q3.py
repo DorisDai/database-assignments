@@ -65,14 +65,14 @@ def printFormatRequirements(reqList):
         if '{' in course:
           alternativeC = course.split(';')
           currCourse = getSubject(db, alternativeC[0][1:])
-          currCourseStr = checkGetItemNone(currCourse)
+          currCourseStr = checkGetItemNone(currCourse[2])
           print('- ' + alternativeC[0][1:] + ' ' + currCourseStr)
           currCourse = getSubject(db, alternativeC[1][:-1])
-          currCourseStr = checkGetItemNone(currCourse)
+          currCourseStr = checkGetItemNone(currCourse[2])
           print('  or ' + alternativeC[1][:-1] + ' ' + currCourseStr)
         else:
           currCourse = getSubject(db, course)
-          currCourseStr = checkGetItemNone(currCourse)
+          currCourseStr = checkGetItemNone(currCourse[2])
           print('- ' + course + ' ' + currCourseStr)
 
 try:
