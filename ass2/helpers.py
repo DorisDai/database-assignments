@@ -43,6 +43,7 @@ def getSubject(db, subject):
   qury = 'select s.* from Subjects as s where code = %s'
   cur.execute(qury, [subject])
   subjectInfo = cur.fetchone()
+  cur.close()
   if not subjectInfo:
     return None
   else:

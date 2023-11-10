@@ -4,7 +4,7 @@
 import sys
 import psycopg2
 import re
-from helpers import getProgram, getStream
+from helpers import getProgram, getStream, getSubject
 
 # define any local helper functions here
 # ...
@@ -66,6 +66,31 @@ try:
       elif reqType == 'elective':
         print(uocString + ' courses from ' + reqName)
         print('- ' + acadobjs)
+      elif reqType == 'free':
+        print(uocString + ' of ' + 'Free Electives')
+      elif reqType == 'gened':
+        print(uocString + ' of ' + 'General Education')
+      elif reqType == 'stream':
+        # suppose streams' minreq == maxreq 
+        print(minReq + ' from ' + reqName)
+        streamList = acadobjs.split(',')
+        for strm in streamList:
+          currstrm = getStream(db, strm)
+          print('- ' + currstrm[1] + ' ' + currstrm[2])
+        
+      elif reqType == 'core':
+        print('all courses from ' + reqName)
+        courseList = acadobjs.split(',')
+        for course in courseList:
+          if '{' in course:
+            alternativeC = course.split(';')
+            currCourse = getSubject(db, alternativeC[0])
+            print('- ' + course + currCourse[2])
+            currCourse = getSubject(db, alternativeC[1])
+            print('  or ' + course + currCourse[2])
+          else:
+            currCourse = getSubject(db, course)
+            print('- ' + course + currCourse[2])
 
 
 
