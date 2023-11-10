@@ -72,7 +72,7 @@ try:
         print(uocString + ' of ' + 'General Education')
       elif reqType == 'stream':
         # suppose streams' minreq == maxreq 
-        print(minReq + ' from ' + reqName)
+        print(str(minReq) + ' from ' + reqName)
         streamList = acadobjs.split(',')
         for strm in streamList:
           currstrm = getStream(db, strm)
