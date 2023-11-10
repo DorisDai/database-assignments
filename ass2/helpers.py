@@ -49,7 +49,7 @@ def getSubject(db, subject):
   else:
     return subjectInfo
 
-def checkGetItemNone(string):
+def convertNoneToString(string):
   if string == None:
     return 'None'
   else:

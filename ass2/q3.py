@@ -4,7 +4,7 @@
 import sys
 import psycopg2
 import re
-from helpers import getProgram, getStream, getSubject, checkGetItemNone
+from helpers import getProgram, getStream, getSubject, convertNoneToString
 
 # define any local helper functions here
 # ...
@@ -55,7 +55,7 @@ def printFormatRequirements(reqList):
       streamList = acadobjs.split(',')
       for strm in streamList:
         currstrm = getStream(db, strm)
-        currstrmStr = checkGetItemNone(currstrm[2])
+        currstrmStr = convertNoneToString(currstrm[2])
         print('- ' + strm + ' ' + currstrmStr)
       
     elif reqType == 'core':
@@ -65,14 +65,14 @@ def printFormatRequirements(reqList):
         if '{' in course:
           alternativeC = course.split(';')
           currCourse = getSubject(db, alternativeC[0][1:])
-          currCourseStr = checkGetItemNone(currCourse[2])
+          currCourseStr = convertNoneToString(currCourse[2])
           print('- ' + alternativeC[0][1:] + ' ' + currCourseStr)
           currCourse = getSubject(db, alternativeC[1][:-1])
-          currCourseStr = checkGetItemNone(currCourse[2])
+          currCourseStr = convertNoneToString(currCourse[2])
           print('  or ' + alternativeC[1][:-1] + ' ' + currCourseStr)
         else:
           currCourse = getSubject(db, course)
-          currCourseStr = checkGetItemNone(currCourse[2])
+          currCourseStr = convertNoneToString(currCourse[2])
           print('- ' + course + ' ' + currCourseStr)
 
 try:
@@ -89,27 +89,26 @@ try:
     join Programs as Pro on R.for_program = Pro.id
     where Pro.code = %s
     """
-    cur = db.cursor()
-    cur.execute(reqsql, [code])
-    reqs = cur.fetchone()
-    print(f"{code} {reqs[0]}")
-    print("Academic Requirements:")
-    cur.execute(reqsql, [code])
-    reqs = cur.fetchall()
-    uocString = None
-    printFormatRequirements(reqs)
-
-
   elif codeOf == "stream":
     strmInfo = getStream(db,code)
     if not strmInfo:
       print(f"Invalid stream code {code}")
       exit(1)
-    #print(strmInfo)  #debug
-
-    # List the rules for Stream
-
-    # ... add your code here ...
+    reqsql = """
+    select Pro.name, R.name, rtype, min_req, max_req, acadobjs
+    from Requirements as R
+    join Streams as Str on R.for_stream = Str.id
+    where Str.code = %s
+    """
+  cur = db.cursor()
+  cur.execute(reqsql, [code])
+  reqs = cur.fetchone()
+  print(f"{code} {reqs[0]}")
+  print("Academic Requirements:")
+  cur.execute(reqsql, [code])
+  reqs = cur.fetchall()
+  uocString = None
+  printFormatRequirements(reqs)
 
 finally:
   if db:
