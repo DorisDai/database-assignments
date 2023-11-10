@@ -90,18 +90,11 @@ try:
     reqs = cur.fetchone()
     print(f"{code} {reqs[0]}")
     print("Academic Requirements:")
-    cur.execute(reqsql)
+    cur.execute(reqsql, code)
     reqs = cur.fetchall()
     uocString = None
     printFormatRequirements(reqs)
 
-
-
-      # if (reqType == "uoc")
-
-    # List the rules for Program
-
-    # ... add your code here ...
 
   elif codeOf == "stream":
     strmInfo = getStream(db,code)
