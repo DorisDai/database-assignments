@@ -36,12 +36,18 @@ try:
     print(f"Invalid student ID {zid}")
     exit()
 
-  #print(stuInfo) # debug
-  # Print transcript for Student
-  # ... add your code here ...
+  stuQury = """
+  select P.zid, family_name, given_names, 
+  from Students as S
+  join People as P on P.id = S.id
+  where P.zid = '5893146'
+  """
+  cur = db.cursor()
+  cur.execute(stuQury)
+  stuInfo = cur.fetchone()
+  print(f"{stuInfo[0]} {stuInfo[1]}, {stuInfo[2]}")
 
-except Exception as err:
-  print("DB error: ", err)
+
 finally:
   if db:
     db.close()
