@@ -31,13 +31,13 @@ if not digits.match(zid):
 
 try:
   db = psycopg2.connect("dbname=ass2")
-  stuInfo = getStudent(db,zid)
-  if not stuInfo:
+  stusInfo = getStudent(db,zid)
+  if not stusInfo:
     print(f"Invalid student ID {zid}")
     exit()
 
   stuQury = """
-  select P.zid, family_name, given_names, 
+  select P.zid, family_name, given_names 
   from Students as S
   join People as P on P.id = S.id
   where P.zid = '5893146'
