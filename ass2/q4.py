@@ -47,6 +47,7 @@ try:
   stuInfo = cur.fetchone()
   print(f"{stuInfo[0]} {stuInfo[1]}, {stuInfo[2]}")
   sId = stuInfo[3]
+  print(sId)
   proQury = """
   select Pg.code, Sr.code, Pg.name
   from Program_enrolments as Pe
