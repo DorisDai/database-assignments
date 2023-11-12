@@ -28,7 +28,7 @@ def getStudent(db,zid):
   select p.*
   from   People p
          join Students s on s.id = p.id
-  where  s.zid = %s
+  where  p.zid = %s
   """
   cur.execute(qry,[zid])
   info = cur.fetchone()
