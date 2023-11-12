@@ -37,7 +37,7 @@ try:
     exit()
 
   stuQury = """
-  select P.zid, family_name, given_names 
+  select P.zid, family_name, given_names, S.id 
   from Students as S
   join People as P on P.id = S.id
   where P.zid = '5893146'
@@ -46,6 +46,20 @@ try:
   cur.execute(stuQury)
   stuInfo = cur.fetchone()
   print(f"{stuInfo[0]} {stuInfo[1]}, {stuInfo[2]}")
+  sId = stuInfo[3]
+  proQury = """
+  select Pg.code, Sr.code, Pg.name
+  from Program_enrolments as Pe
+  join Programs as Pg on Pe.program = Pg.id
+  join Stream_enrolments as Se on Se.part_of = Pe.id
+  join Streams as Sr on Sr.id = Se.stream
+  where Pe.student = %s
+  """
+  cur.execute(proQury, [sId])
+  proEnrol = cur.fetchone()
+  print(f"{proEnrol[0]} {proEnrol[1]} {proEnrol[2]}")
+
+  
 
 
 finally:
