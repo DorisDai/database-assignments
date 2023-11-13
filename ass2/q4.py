@@ -77,9 +77,9 @@ try:
   for CourseCode, Term, SubjectTitle, Mark, Grade, UOC in gradesL:
     UOCString = f"{UOC:2d}uoc"
     if Grade in failUOC:
-      UOCString = 'fail'
+      UOCString = f'{"fail":2}'
     elif Grade in unrsUOC:
-      UOCString = 'unrs'
+      UOCString = f'{"unrs":2}'
     elif Grade == None:
       UOCString = ''
     if Mark == None:
