@@ -60,8 +60,33 @@ try:
   cur.execute(proQury, [sId])
   proEnrol = cur.fetchone()
   print(f"{proEnrol[0]} {proEnrol[1]} {proEnrol[2]}")
-
-  
+  transcriptQ = """
+  select Subj.code, T.code, Subj.title, Ce.mark, Ce.grade, Subj.uoc
+  from Course_enrolments as Ce
+  join Courses as C on C.id = Ce.course
+  join Subjects as Subj on Subj.id = C.subject
+  join Terms as T on T.id = C.term
+  where Ce.student = %s
+  ordered by T.code, Subj.code
+  """
+  cur.execute(proQury, [sId])
+  gradesL = cur.fetchall()
+  xUOC = 'A,B,C,D,HD,DN,CR.PS,XE,T,SY,EC,RC'.split(',')
+  failUOC = 'AF,FL,UF,E,F'.split(',')
+  unrsUOC = 'AS,AW,PW,NA,RD,NF,NC,LE,PE,WD,WJ'.split(',')
+  for CourseCode, Term, SubjectTitle, Mark, Grade, UOC in gradesL:
+    UOCString = f"{UOC:2d}uoc"
+    if UOC in failUOC:
+      UOCString = 'fail'
+    elif UOC in unrsUOC:
+      UOCString = 'unrs'
+    elif UOC == None:
+      UOCString = ''
+    if Mark == None:
+      Mark = f"{'-':>3}"
+    if Grade == None:
+      Grade = f"{'-':>3}"
+    print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}")
 
 
 finally:
