@@ -76,13 +76,12 @@ try:
   unrsUOC = 'AS,AW,PW,NA,RD,NF,NC,LE,PE,WD,WJ'.split(',')
   for CourseCode, Term, SubjectTitle, Mark, Grade, UOC in gradesL:
     UOCString = f"{UOC:2d}uoc"
-    if UOC in failUOC:
+    if Grade in failUOC:
       UOCString = 'fail'
-    elif UOC in unrsUOC:
+    elif Grade in unrsUOC:
       UOCString = 'unrs'
-    elif UOC == None:
+    elif Grade == None:
       UOCString = ''
-    print(unrsUOC, UOCString)
     if Mark == None:
       Mark = f"{'-':>3}"
     if Grade == None:
