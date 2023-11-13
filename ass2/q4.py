@@ -82,6 +82,7 @@ try:
       UOCString = 'unrs'
     elif UOC == None:
       UOCString = ''
+    print(unrsUOC, UOCString)
     if Mark == None:
       Mark = f"{'-':>3}"
     if Grade == None:
