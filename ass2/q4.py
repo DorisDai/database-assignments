@@ -69,7 +69,7 @@ try:
   where Ce.student = %s
   ordered by T.code, Subj.code
   """
-  cur.execute(proQury, [sId])
+  cur.execute(transcriptQ, [sId])
   gradesL = cur.fetchall()
   xUOC = 'A,B,C,D,HD,DN,CR.PS,XE,T,SY,EC,RC'.split(',')
   failUOC = 'AF,FL,UF,E,F'.split(',')
