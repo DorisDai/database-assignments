@@ -67,7 +67,7 @@ try:
   join Subjects as Subj on Subj.id = C.subject
   join Terms as T on T.id = C.term
   where Ce.student = %s
-  ordered by T.code, Subj.code
+  order by T.code, Subj.code
   """
   cur.execute(transcriptQ, [sId])
   gradesL = cur.fetchall()
