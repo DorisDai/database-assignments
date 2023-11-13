@@ -40,10 +40,10 @@ try:
   select P.zid, family_name, given_names, S.id 
   from Students as S
   join People as P on P.id = S.id
-  where P.zid = '5893146'
+  where P.zid = %s
   """
   cur = db.cursor()
-  cur.execute(stuQury)
+  cur.execute(stuQury, [zid])
   stuInfo = cur.fetchone()
   print(f"{stuInfo[0]} {stuInfo[1]}, {stuInfo[2]}")
   sId = stuInfo[3]
