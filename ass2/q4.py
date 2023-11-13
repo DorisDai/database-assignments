@@ -47,7 +47,6 @@ try:
   stuInfo = cur.fetchone()
   print(f"{stuInfo[0]} {stuInfo[1]}, {stuInfo[2]}")
   sId = stuInfo[3]
-  print(sId)
   proQury = """
   select Pg.code, Sr.code, Pg.name
   from Program_enrolments as Pe
@@ -101,7 +100,6 @@ try:
       if Mark == f"{'-':>3}":
         Mark = 0
       weighted_mark_sum += Mark * UOC
-  print(weighted_mark_sum, total_attempted_uoc)
   print(f"UOC = {total_achieved_uoc}, WAM = {round(weighted_mark_sum / total_attempted_uoc, 1)}")
   
 
