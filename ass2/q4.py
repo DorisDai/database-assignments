@@ -35,7 +35,7 @@ try:
   if not stusInfo:
     print(f"Invalid student ID {zid}")
     exit()
-
+  # student info qury
   stuQury = """
   select P.zid, family_name, given_names, S.id 
   from Students as S
@@ -46,7 +46,9 @@ try:
   cur.execute(stuQury, [zid])
   stuInfo = cur.fetchone()
   print(f"{stuInfo[0]} {stuInfo[1]}, {stuInfo[2]}")
+
   sId = stuInfo[3]
+  # student enrolled program and stream info qury
   proQury = """
   select Pg.code, Sr.code, Pg.name
   from Program_enrolments as Pe
@@ -59,6 +61,8 @@ try:
   cur.execute(proQury, [sId])
   proEnrol = cur.fetchone()
   print(f"{proEnrol[0]} {proEnrol[1]} {proEnrol[2]}")
+
+  # students' courses' grades info qury
   transcriptQ = """
   select Subj.code, T.code, Subj.title, Ce.mark, Ce.grade, Subj.uoc
   from Course_enrolments as Ce
@@ -70,7 +74,6 @@ try:
   """
   cur.execute(transcriptQ, [sId])
   gradesL = cur.fetchall()
-  xUOC = 'A,B,C,D,HD,DN,CR.PS,XE,T,SY,EC,RC'.split(',')
   failUOC = 'AF,FL,UF,E,F'.split(',')
   unrsUOC = 'AS,AW,PW,NA,RD,NF,NC,LE,PE,WD,WJ'.split(',')
   total_achieved_uoc = 0
@@ -79,6 +82,7 @@ try:
   achievedUOC = 'A,B,C,D,HD,DN,CR,PS,XE,T,SY,EC,RC'.split(',')
   wamUOC = 'HD,DN,CR,PS,AF,FL,UF,E,F'
   for CourseCode, Term, SubjectTitle, Mark, Grade, UOC in gradesL:
+    # check grade type and form uoc string
     UOCString = f"{UOC:2d}uoc"
     if Grade in failUOC:
       UOCString = ' fail'
@@ -86,6 +90,8 @@ try:
       UOCString = ' unrs'
     elif Grade == None:
       UOCString = ''
+    
+    # format mark and grade string if it is null
     if Mark == None:
       Mark = f"{'-':>3}"
     if Grade == None:
@@ -93,6 +99,8 @@ try:
     if len(SubjectTitle) > 31:
       SubjectTitle = SubjectTitle[:31]
     print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}")
+
+    # calculate attempted uoc and achieved uoc and weighted_mark
     if Grade in achievedUOC:
       total_achieved_uoc += UOC
     if Grade in wamUOC:
@@ -100,6 +108,7 @@ try:
       if Mark == f"{'-':>3}":
         Mark = 0
       weighted_mark_sum += Mark * UOC
+  # print achieved uoc and wam
   print(f"UOC = {total_achieved_uoc}, WAM = {round(weighted_mark_sum / total_attempted_uoc, 1)}")
   
 
