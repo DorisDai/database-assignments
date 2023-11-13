@@ -55,6 +55,7 @@ try:
   join Stream_enrolments as Se on Se.part_of = Pe.id
   join Streams as Sr on Sr.id = Se.stream
   where Pe.student = %s
+  order by Pe.term desc
   """
   cur.execute(proQury, [sId])
   proEnrol = cur.fetchone()
