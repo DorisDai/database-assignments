@@ -86,6 +86,8 @@ try:
       Mark = f"{'-':>3}"
     if Grade == None:
       Grade = f"{'-':>3}"
+    if len(SubjectTitle) > 31:
+      SubjectTitle = SubjectTitle[:31]
     print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}")
 
 
