@@ -100,7 +100,7 @@ try:
       total_attempted_uoc += UOC
       if Mark == f"{'-':>3}":
         Mark = 0
-      weighted_mark_sum += Mark
+      weighted_mark_sum += Mark * UOC
   print(weighted_mark_sum, total_attempted_uoc)
   print(f"UOC = {total_achieved_uoc}, WAM = {weighted_mark_sum / total_attempted_uoc}")
   
