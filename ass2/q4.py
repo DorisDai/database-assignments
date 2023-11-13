@@ -74,6 +74,11 @@ try:
   xUOC = 'A,B,C,D,HD,DN,CR.PS,XE,T,SY,EC,RC'.split(',')
   failUOC = 'AF,FL,UF,E,F'.split(',')
   unrsUOC = 'AS,AW,PW,NA,RD,NF,NC,LE,PE,WD,WJ'.split(',')
+  total_achieved_uoc = 0
+  total_attempted_uoc = 0
+  weighted_mark_sum = 0
+  achievedUOC = 'A,B,C,D,HD,DN,CR,PS,XE,T,SY,EC,RC'.split(',')
+  wamUOC = 'HD,DN,CR,PS,AF,FL,UF,E,F'
   for CourseCode, Term, SubjectTitle, Mark, Grade, UOC in gradesL:
     UOCString = f"{UOC:2d}uoc"
     if Grade in failUOC:
@@ -89,7 +94,16 @@ try:
     if len(SubjectTitle) > 31:
       SubjectTitle = SubjectTitle[:31]
     print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}")
-
+    if Grade in achievedUOC:
+      total_achieved_uoc += UOC
+    if Grade in wamUOC:
+      total_attempted_uoc += UOC
+      if Mark == f"{'-':>3}":
+        Mark = 0
+      weighted_mark_sum += Mark
+  print(weighted_mark_sum, total_attempted_uoc)
+  print(f"UOC = {total_achieved_uoc}, WAM = {weighted_mark_sum / total_attempted_uoc}")
+  
 
 finally:
   if db:
