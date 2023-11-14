@@ -91,7 +91,7 @@ try:
       SfreeL.append(min_req)
       SfreeL.append(max_req)
       SfreeL.append(reqName)
-  print(coreL, elecL, geneL, freeL)
+  print(ScoreL, SelecL, SgeneL, SfreeL)
   courseReqs = getProReq(db, '3707')
 
 except Exception as err:
