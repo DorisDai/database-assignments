@@ -44,7 +44,7 @@ def inElectiveList(CourseCode, SelecL):
         return False
     return True
 def checkLimit(count, max):
-  if max == None or count < max:
+  if max == None or count <= max:
     return True
   else:
     return False
