@@ -41,12 +41,13 @@ def inElectiveList(CourseCode, SelecL):
   for course in SelecL:
     i = 0
     matched = True
-    for i in range(0, len(course)):
-      
-      if course[i] != '#' and course[i] != CourseCode[i]:
-        matched = False
-    if matched:
-      return True
+    if type(course) == str:
+      for i in range(0, len(course)):
+        
+        if course[i] != '#' and course[i] != CourseCode[i]:
+          matched = False
+      if matched:
+        return True
   if not returned:
     return False
 def checkLimit(count, max):
