@@ -51,14 +51,15 @@ def checkLimit(count, max):
 
 def checkInCoreList(courseCode, coreLists):
   for coreList in coreLists:
-    if courseCode in coreList:
-      return True
+    for course in coreList:
+      if courseCode in course:
+        return True
   return False
 def removeFromCoreList(courseCode, coreLists):
   for coreList in coreLists:
-    if courseCode in coreList:
-      coreList.remove(courseCode)
-      return coreList[-1]
+    for course in coreList:
+      if courseCode in course:
+        return coreList[-1]
   return False
   
 try:
