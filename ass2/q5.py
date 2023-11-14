@@ -42,7 +42,7 @@ def inElectiveList(CourseCode, SelecL):
     i = 0
     matched = True
     if type(course) == str:
-      for i in range(0, len(course)):
+      for i in range(0, len(course) - 1):
         
         if course[i] != '#' and course[i] != CourseCode[i]:
           matched = False
