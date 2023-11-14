@@ -4,14 +4,14 @@
 import sys
 import psycopg2
 import re
-from helpers import getStudent, getProgram, getStream
+from helpers import *
 
 # define any local helper functions here
 
 ### set up some globals
 
 usage = f"Usage: {sys.argv[0]} zID [Program Stream]"
-db = None
+db = []
 
 ### process command-line args
 
@@ -27,8 +27,8 @@ if not digits.match(zid):
   print("Invalid student ID")
   exit(1)
 
-progCode = None
-strmCode = None
+progCode = []
+strmCode = []
 
 if argc == 4:
   progCode = sys.argv[2]
@@ -59,12 +59,36 @@ try:
       exit(1)
     #print(strmInfo)  #debug
 
-  # if have a program/stream
-  #   show progression check on supplied program/stream
-  # else
-  #   show progression check on most recent program/stream enrolment
-
-  # ... add your code here ...
+  # suppose every students all enrolled in 1 program and 1 stream
+  coreL = []
+  elecL = []
+  geneL = []
+  freeL = []
+  currCoreL = []
+  currElecL = []
+  currGeneL = []
+  currFreeL = []
+  streamReqs = getStreamReq(db, 'COMPA1')
+  # assume requirement type at most 1 for program  or stream
+  for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
+    if rtype == 'core':
+      coreL = acadobjs.split(',')
+      coreL.append(reqName)
+    elif rtype == 'elective':
+      elecL = acadobjs.split(',')
+      elecL.append(min_req)
+      elecL.append(max_req)
+      elecL.append(reqName)
+    elif rtype == 'gened':
+      geneL.append(min_req)
+      geneL.append(max_req)
+      geneL.append(reqName)
+    elif rtype == 'free':
+      freeL.append(min_req)
+      freeL.append(max_req)
+      freeL.append(reqName)
+  print(coreL, elecL, geneL, freeL)
+  courseReqs = getProReq(db, '3707')
 
 except Exception as err:
   print("DB error: ", err)

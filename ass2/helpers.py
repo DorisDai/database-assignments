@@ -106,8 +106,9 @@ def getProReq(db, code):
   """
   cur = db.cursor()
   cur.execute(reqsql, [code])
+  reqL = cur.fetchall()
   cur.close()
-  return cur.fetchall()
+  return reqL
 
 def getStreamReq(db, code):
   reqsql = """
@@ -118,5 +119,7 @@ def getStreamReq(db, code):
   """
   cur = db.cursor()
   cur.execute(reqsql, [code])
+  reqL = cur.fetchall()
   cur.close()
-  return cur.fetchall()
+
+  return reqL
