@@ -54,3 +54,45 @@ def convertNoneToString(string):
     return 'None'
   else:
     return string
+  
+def transcript(db, zid):
+  stuQury = """
+  select P.zid, family_name, given_names, S.id 
+  from Students as S
+  join People as P on P.id = S.id
+  where P.zid = %s
+  """
+  cur = db.cursor()
+  cur.execute(stuQury, [zid])
+  stuInfo = cur.fetchone()
+  print(f"{stuInfo[0]} {stuInfo[1]}, {stuInfo[2]}")
+
+  sId = stuInfo[3]
+  # student enrolled program and stream info qury
+  proQury = """
+  select Pg.code, Sr.code, Pg.name
+  from Program_enrolments as Pe
+  join Programs as Pg on Pe.program = Pg.id
+  join Stream_enrolments as Se on Se.part_of = Pe.id
+  join Streams as Sr on Sr.id = Se.stream
+  where Pe.student = %s
+  order by Pe.term desc
+  """
+  cur.execute(proQury, [sId])
+  proEnrol = cur.fetchone()
+  print(f"{proEnrol[0]} {proEnrol[1]} {proEnrol[2]}")
+
+  # students' courses' grades info qury
+  transcriptQ = """
+  select Subj.code, T.code, Subj.title, Ce.mark, Ce.grade, Subj.uoc
+  from Course_enrolments as Ce
+  join Courses as C on C.id = Ce.course
+  join Subjects as Subj on Subj.id = C.subject
+  join Terms as T on T.id = C.term
+  where Ce.student = %s
+  order by T.code, Subj.code
+  """
+  cur.execute(transcriptQ, [sId])
+  gradesL = cur.fetchall()
+  
+  return gradesL
