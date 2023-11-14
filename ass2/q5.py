@@ -86,6 +86,7 @@ try:
       SelecL.append(max_req)
       SelecL.append(reqName)
     elif rtype == 'free':
+      freeL.append(0)
       freeL.append(min_req)
       freeL.append(max_req)
       freeL.append(reqName)
