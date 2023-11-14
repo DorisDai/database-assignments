@@ -43,7 +43,11 @@ def inElectiveList(CourseCode, SelecL):
       if course[i] != '#' and course[i] != CourseCode[i]:
         return False
     return True
-
+def checkLimit(count, max):
+  if max == None or count < max:
+    return True
+  else:
+    return False
 try:
   db = psycopg2.connect("dbname=ass2")
 
@@ -144,16 +148,16 @@ try:
     elif CourseCode in CcoreL:
       nameReq = CcoreL[-1]
       CcoreL.remove(CourseCode)
-    elif inElectiveList(CourseCode, SelecL) and SelecL[-4] + UOC < SelecL[-2]:
+    elif inElectiveList(CourseCode, SelecL) and checkLimit(SelecL[-4] + UOC, SelecL[-2]):
       nameReq = SelecL[-1]
       SelecL[-4] += UOC
-    elif inElectiveList(CourseCode, CelecL) and CelecL[-4] + UOC < CelecL[-2]:
+    elif inElectiveList(CourseCode, CelecL) and checkLimit(CelecL[-4] + UOC, CelecL[-2]):
       nameReq = CelecL[-1]
-      SelecL[-4] += 1
-    elif geneL[-4] + UOC < geneL[-2]:
+      CelecL[-4] += 1
+    elif checkLimit(geneL[-4] + UOC, geneL[-2]):
       nameReq = geneL[-1]
       geneL[-4] += 1
-    elif freeL[-4] + UOC < freeL[-2]:
+    elif checkLimit(freeL[-4] + UOC, freeL[-2]):
       nameReq = freeL[-1]
       freeL[-4] += 1  
     else:
