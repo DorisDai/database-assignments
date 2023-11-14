@@ -37,14 +37,18 @@ if argc == 4:
 # manipulate database
 
 def inElectiveList(CourseCode, SelecL):
+  returned = False
   for course in SelecL:
     i = 0
+    matched = True
     for i in range(0, len(course)):
-      if CourseCode == 'COMP3311':
-        print(course[i], CourseCode[i])
+      
       if course[i] != '#' and course[i] != CourseCode[i]:
-        return False
-    return True
+        matched = False
+    if matched:
+      return True
+  if not returned:
+    return False
 def checkLimit(count, max):
   if max == None or count <= max:
     return True
