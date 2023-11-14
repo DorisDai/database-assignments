@@ -94,5 +94,29 @@ def transcript(db, zid):
   """
   cur.execute(transcriptQ, [sId])
   gradesL = cur.fetchall()
-  
+  cur.close()
   return gradesL
+
+def getProReq(db, code):
+  reqsql = """
+  select Pro.name, R.name, rtype, min_req, max_req, acadobjs
+  from Requirements as R
+  join Programs as Pro on R.for_program = Pro.id
+  where Pro.code = %s
+  """
+  cur = db.cursor()
+  cur.execute(reqsql, [code])
+  cur.close()
+  return cur.fetchall()
+
+def getStreamReq(db, code):
+  reqsql = """
+  select Str.name, R.name, rtype, min_req, max_req, acadobjs
+  from Requirements as R
+  join Streams as Str on R.for_stream = Str.id
+  where Str.code = %s
+  """
+  cur = db.cursor()
+  cur.execute(reqsql, [code])
+  cur.close()
+  return cur.fetchall()
