@@ -108,7 +108,7 @@ try:
       ScoreL.append(newCoreL)
     elif rtype == 'elective':
       SelecL += acadobjs.split(',')
-      freeL.append(0)
+      SelecL.append(0)
       SelecL.append(min_req)
       SelecL.append(max_req)
       SelecL.append(reqName)
