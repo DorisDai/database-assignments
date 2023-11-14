@@ -172,8 +172,8 @@ try:
       weighted_mark_sum += Mark * UOC
   # print achieved uoc and wam
   print(f"UOC = {total_achieved_uoc}, WAM = {round(weighted_mark_sum / total_attempted_uoc, 1)}")
-except Exception as err:
-  print("DB error: ", err)
+
+
 finally:
   if db:
     db.close()
