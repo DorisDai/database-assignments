@@ -148,6 +148,7 @@ try:
   for CourseCode, Term, SubjectTitle, Mark, Grade, UOC in gradesL:
     # check grade type and form uoc string
     UOCString = f"{UOC:2d}uoc"
+    GradeString = Grade
     if Grade in failUOC:
       UOCString = ' fail'
     elif Grade in unrsUOC:
@@ -159,12 +160,10 @@ try:
     if Mark == None:
       Mark = f"{'-':>3}"
     if Grade == None:
-      Grade = f"{'-':>3}"
+      GradeString = f"{'-':>3}"
     if len(SubjectTitle) > 31:
       SubjectTitle = SubjectTitle[:31]
     
-    if CourseCode == 'COMP1521':
-      print(CcoreL)
     nameReq = None
     if Grade in failUOC or Grade in unrsUOC or Grade == None:
       nameReq = ''
@@ -187,7 +186,7 @@ try:
     else:
       nameReq = 'Could not be allocated'
       UOCString = '  0uoc'  
-    print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}  {nameReq}")
+    print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {GradeString:>2s}  {UOCString}  {nameReq}")
     
 
     # calculate attempted uoc and achieved uoc and weighted_mark
