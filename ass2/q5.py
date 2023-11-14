@@ -48,6 +48,19 @@ def checkLimit(count, max):
     return True
   else:
     return False
+
+def checkInCoreList(courseCode, coreLists):
+  for coreList in coreLists:
+    if courseCode in coreList:
+      return True
+  return False
+def removeFromCoreList(courseCode, coreLists):
+  for coreList in coreLists:
+    if courseCode in coreList:
+      coreList.remove(courseCode)
+      return coreList[-1]
+  return False
+  
 try:
   db = psycopg2.connect("dbname=ass2")
 
@@ -82,8 +95,9 @@ try:
   # assume requirement type at most 1 for program  or stream
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
     if rtype == 'core':
-      ScoreL += acadobjs.split(',')
-      ScoreL.append(reqName)
+      newCoreL = acadobjs.split(',')
+      newCoreL.append(reqName)
+      ScoreL.append(newCoreL)
     elif rtype == 'elective':
       SelecL += acadobjs.split(',')
       SelecL.append(min_req)
@@ -98,8 +112,9 @@ try:
   courseReqs = getProReq(db, '3778')
   for streamName, reqName, rtype, min_req, max_req, acadobjs in courseReqs:
     if rtype == 'core':
-      CcoreL += acadobjs.split(',')
-      CcoreL.append(reqName)
+      newCoreL = acadobjs.split(',')
+      newCoreL.append(reqName)
+      CcoreL.append(newCoreL)
     elif rtype == 'elective':
       CelecL += acadobjs.split(',')
       CelecL.append(0)
@@ -139,16 +154,14 @@ try:
     if len(SubjectTitle) > 31:
       SubjectTitle = SubjectTitle[:31]
     
+    
     nameReq = None
-    print(CourseCode)
     if Grade in failUOC or Grade in unrsUOC or Grade == None:
       nameReq = ''
-    elif CourseCode in ScoreL:
-      nameReq = ScoreL[-1]
-      ScoreL.remove(CourseCode)
-    elif CourseCode in CcoreL:
-      nameReq = CcoreL[-1]
-      CcoreL.remove(CourseCode)
+    elif checkInCoreList(CourseCode, ScoreL):
+      nameReq = removeFromCoreList(CourseCode, ScoreL)
+    elif checkInCoreList(CourseCode, CcoreL):
+      nameReq = removeFromCoreList(CourseCode, CcoreL)
     elif inElectiveList(CourseCode, SelecL) and checkLimit(SelecL[-4] + UOC, SelecL[-2]):
       nameReq = SelecL[-1]
       SelecL[-4] += UOC
@@ -163,8 +176,7 @@ try:
       freeL[-4] += 1  
     else:
       nameReq = 'Could not be allocated'
-      UOCString = '  0uoc'
-    print(CcoreL)      
+      UOCString = '  0uoc'  
     print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}  {nameReq}")
     
 
