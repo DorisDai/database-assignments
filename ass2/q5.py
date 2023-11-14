@@ -60,10 +60,14 @@ try:
     #print(strmInfo)  #debug
 
   # suppose every students all enrolled in 1 program and 1 stream
-  coreL = []
-  elecL = []
-  geneL = []
-  freeL = []
+  ScoreL = []
+  SelecL = []
+  SgeneL = []
+  SfreeL = []
+  CcoreL = []
+  CelecL = []
+  CgeneL = []
+  CfreeL = []
   currCoreL = []
   currElecL = []
   currGeneL = []
@@ -72,21 +76,21 @@ try:
   # assume requirement type at most 1 for program  or stream
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
     if rtype == 'core':
-      coreL = acadobjs.split(',')
-      coreL.append(reqName)
+      ScoreL += acadobjs.split(',')
+      ScoreL.append(reqName)
     elif rtype == 'elective':
-      elecL = acadobjs.split(',')
-      elecL.append(min_req)
-      elecL.append(max_req)
-      elecL.append(reqName)
+      SelecL += acadobjs.split(',')
+      SelecL.append(min_req)
+      SelecL.append(max_req)
+      SelecL.append(reqName)
     elif rtype == 'gened':
-      geneL.append(min_req)
-      geneL.append(max_req)
-      geneL.append(reqName)
+      SgeneL.append(min_req)
+      SgeneL.append(max_req)
+      SgeneL.append(reqName)
     elif rtype == 'free':
-      freeL.append(min_req)
-      freeL.append(max_req)
-      freeL.append(reqName)
+      SfreeL.append(min_req)
+      SfreeL.append(max_req)
+      SfreeL.append(reqName)
   print(coreL, elecL, geneL, freeL)
   courseReqs = getProReq(db, '3707')
 
