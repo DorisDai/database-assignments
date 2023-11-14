@@ -42,7 +42,7 @@ def inElectiveList(CourseCode, SelecL):
     i = 0
     matched = True
     if type(course) == str:
-      for i in range(0, len(course) - 1):
+      for i in range(0, len(course)):
         
         if course[i] != '#' and course[i] != CourseCode[i]:
           matched = False
@@ -108,6 +108,7 @@ try:
       ScoreL.append(newCoreL)
     elif rtype == 'elective':
       SelecL += acadobjs.split(',')
+      freeL.append(0)
       SelecL.append(min_req)
       SelecL.append(max_req)
       SelecL.append(reqName)
