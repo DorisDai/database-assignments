@@ -90,7 +90,7 @@ try:
       freeL.append(max_req)
       freeL.append(reqName)
   print(ScoreL, SelecL, geneL, freeL)
-  courseReqs = getProReq(db, '3707')
+  courseReqs = getProReq(db, '3778')
   for streamName, reqName, rtype, min_req, max_req, acadobjs in courseReqs:
     if rtype == 'core':
       CcoreL += acadobjs.split(',')
@@ -143,16 +143,16 @@ try:
     elif CourseCode in CcoreL:
       nameReq = CcoreL[-1]
       CcoreL.remove(CourseCode)
-    elif inElectiveList(CourseCode, SelecL) and SelecL[-4] < SelecL[-2]:
+    elif inElectiveList(CourseCode, SelecL) and SelecL[-4] + UOC < SelecL[-2]:
       nameReq = SelecL[-1]
-      SelecL[-4] += 1
-    elif inElectiveList(CourseCode, CelecL) and CelecL[-4] < CelecL[-2]:
+      SelecL[-4] += UOC
+    elif inElectiveList(CourseCode, CelecL) and CelecL[-4] + UOC < CelecL[-2]:
       nameReq = CelecL[-1]
       SelecL[-4] += 1
-    elif geneL[-4] < geneL[-2]:
+    elif geneL[-4] + UOC < geneL[-2]:
       nameReq = geneL[-1]
       geneL[-4] += 1
-    elif freeL[-4] < freeL[-2]:
+    elif freeL[-4] + UOC < freeL[-2]:
       nameReq = freeL[-1]
       freeL[-4] += 1  
     else:
