@@ -36,6 +36,14 @@ if argc == 4:
 
 # manipulate database
 
+def inElectiveList(CourseCode, SelecL):
+  for course in SelecL:
+    i = 0
+    for i in range(0, len(course)):
+      if course[i] != '#' and course[i] != CourseCode[i]:
+        return False
+    return True
+
 try:
   db = psycopg2.connect("dbname=ass2")
 
@@ -62,16 +70,10 @@ try:
   # suppose every students all enrolled in 1 program and 1 stream
   ScoreL = []
   SelecL = []
-  SgeneL = []
-  SfreeL = []
   CcoreL = []
   CelecL = []
-  CgeneL = []
-  CfreeL = []
-  currCoreL = []
-  currElecL = []
-  currGeneL = []
-  currFreeL = []
+  geneL = []
+  freeL = []
   streamReqs = getStreamReq(db, 'COMPA1')
   # assume requirement type at most 1 for program  or stream
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
@@ -83,15 +85,11 @@ try:
       SelecL.append(min_req)
       SelecL.append(max_req)
       SelecL.append(reqName)
-    elif rtype == 'gened':
-      SgeneL.append(min_req)
-      SgeneL.append(max_req)
-      SgeneL.append(reqName)
     elif rtype == 'free':
-      SfreeL.append(min_req)
-      SfreeL.append(max_req)
-      SfreeL.append(reqName)
-  print(ScoreL, SelecL, SgeneL, SfreeL)
+      freeL.append(min_req)
+      freeL.append(max_req)
+      freeL.append(reqName)
+  print(ScoreL, SelecL, geneL, freeL)
   courseReqs = getProReq(db, '3707')
   for streamName, reqName, rtype, min_req, max_req, acadobjs in courseReqs:
     if rtype == 'core':
@@ -99,18 +97,81 @@ try:
       CcoreL.append(reqName)
     elif rtype == 'elective':
       CelecL += acadobjs.split(',')
+      CelecL.append(0)
       CelecL.append(min_req)
       CelecL.append(max_req)
       CelecL.append(reqName)
     elif rtype == 'gened':
-      CgeneL.append(min_req)
-      CgeneL.append(max_req)
-      CgeneL.append(reqName)
-    elif rtype == 'free':
-      CfreeL.append(min_req)
-      CfreeL.append(max_req)
-      CfreeL.append(reqName)
-  print(CcoreL, CelecL, CgeneL, CfreeL)
+      geneL.append(0)
+      geneL.append(min_req)
+      geneL.append(max_req)
+      geneL.append(reqName)
+  print(CcoreL, CelecL, geneL, freeL)
+  
+  gradesL = transcript(db, zid)
+  failUOC = 'AF,FL,UF,E,F'.split(',')
+  unrsUOC = 'AS,AW,PW,NA,RD,NF,NC,LE,PE,WD,WJ'.split(',')
+  total_achieved_uoc = 0
+  total_attempted_uoc = 0
+  weighted_mark_sum = 0
+  achievedUOC = 'A,B,C,D,HD,DN,CR,PS,XE,T,SY,EC,RC'.split(',')
+  wamUOC = 'HD,DN,CR,PS,AF,FL,UF,E,F'
+  for CourseCode, Term, SubjectTitle, Mark, Grade, UOC in gradesL:
+    # check grade type and form uoc string
+    UOCString = f"{UOC:2d}uoc"
+    if Grade in failUOC:
+      UOCString = ' fail'
+    elif Grade in unrsUOC:
+      UOCString = ' unrs'
+    elif Grade == None:
+      UOCString = ''
+    
+    # format mark and grade string if it is null
+    if Mark == None:
+      Mark = f"{'-':>3}"
+    if Grade == None:
+      Grade = f"{'-':>3}"
+    if len(SubjectTitle) > 31:
+      SubjectTitle = SubjectTitle[:31]
+    
+    nameReq = None
+    if Grade in failUOC or Grade in unrsUOC or Grade == None:
+      nameReq = ''
+    elif CourseCode in ScoreL:
+      nameReq = ScoreL[-1]
+      ScoreL.remove(CourseCode)
+    elif CourseCode in CcoreL:
+      nameReq = CcoreL[-1]
+      CcoreL.remove(CourseCode)
+    elif inElectiveList(CourseCode, SelecL) and SelecL[-4] < SelecL[-2]:
+      nameReq = SelecL[-1]
+      SelecL[-4] += 1
+    elif inElectiveList(CourseCode, CelecL) and CelecL[-4] < CelecL[-2]:
+      nameReq = CelecL[-1]
+      SelecL[-4] += 1
+    elif geneL[-4] < geneL[-2]:
+      nameReq = geneL[-1]
+      geneL[-4] += 1
+    elif freeL[-4] < freeL[-2]:
+      nameReq = freeL[-1]
+      freeL[-4] += 1  
+    else:
+      nameReq = 'Could not be allocated'
+      UOCString = '  0uoc'
+          
+    print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}  {nameReq}")
+    
+
+    # calculate attempted uoc and achieved uoc and weighted_mark
+    if Grade in achievedUOC:
+      total_achieved_uoc += UOC
+    if Grade in wamUOC:
+      total_attempted_uoc += UOC
+      if Mark == f"{'-':>3}":
+        Mark = 0
+      weighted_mark_sum += Mark * UOC
+  # print achieved uoc and wam
+  print(f"UOC = {total_achieved_uoc}, WAM = {round(weighted_mark_sum / total_attempted_uoc, 1)}")
 except Exception as err:
   print("DB error: ", err)
 finally:
