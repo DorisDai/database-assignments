@@ -93,7 +93,24 @@ try:
       SfreeL.append(reqName)
   print(ScoreL, SelecL, SgeneL, SfreeL)
   courseReqs = getProReq(db, '3707')
-
+  for streamName, reqName, rtype, min_req, max_req, acadobjs in courseReqs:
+    if rtype == 'core':
+      CcoreL += acadobjs.split(',')
+      CcoreL.append(reqName)
+    elif rtype == 'elective':
+      CelecL += acadobjs.split(',')
+      CelecL.append(min_req)
+      CelecL.append(max_req)
+      CelecL.append(reqName)
+    elif rtype == 'gened':
+      CgeneL.append(min_req)
+      CgeneL.append(max_req)
+      CgeneL.append(reqName)
+    elif rtype == 'free':
+      CfreeL.append(min_req)
+      CfreeL.append(max_req)
+      CfreeL.append(reqName)
+  print(CcoreL, CelecL, CgeneL, CfreeL)
 except Exception as err:
   print("DB error: ", err)
 finally:
