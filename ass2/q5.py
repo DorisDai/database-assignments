@@ -160,12 +160,14 @@ try:
     if Mark == None:
       Mark = f"{'-':>3}"
     if Grade == None:
-      GradeString = f"{'-':>3}"
+      Grade = f"{'-':>3}"
     if len(SubjectTitle) > 31:
       SubjectTitle = SubjectTitle[:31]
     
+    if CourseCode == 'COMP1521':
+      print(CcoreL)
     nameReq = None
-    if Grade in failUOC or Grade in unrsUOC or Grade == None:
+    if Grade in failUOC or Grade in unrsUOC or Grade == f"{'-':>3}":
       nameReq = ''
     elif checkInCoreList(CourseCode, ScoreL):
       nameReq = removeFromCoreList(CourseCode, ScoreL)
@@ -186,7 +188,7 @@ try:
     else:
       nameReq = 'Could not be allocated'
       UOCString = '  0uoc'  
-    print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {GradeString:>2s}  {UOCString}  {nameReq}")
+    print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}  {nameReq}")
     
 
     # calculate attempted uoc and achieved uoc and weighted_mark
