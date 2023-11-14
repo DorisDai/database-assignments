@@ -173,7 +173,7 @@ try:
     elif checkLimit(geneL[-4] + UOC, geneL[-2]):
       nameReq = geneL[-1]
       geneL[-4] += UOC
-    elif checkLimit(freeL[-4] + UOC, freeL[-2]):
+    elif checkLimit(freeL[-4] + UOC, freeL[-3]):
       nameReq = freeL[-1]
       freeL[-4] += UOC  
     else:
