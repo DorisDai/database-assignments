@@ -40,6 +40,8 @@ def inElectiveList(CourseCode, SelecL):
   for course in SelecL:
     i = 0
     for i in range(0, len(course)):
+      if CourseCode == 'COMP3311':
+        print(course[i], CourseCode[i])
       if course[i] != '#' and course[i] != CourseCode[i]:
         return False
     return True
