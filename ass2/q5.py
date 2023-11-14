@@ -155,7 +155,8 @@ try:
     if len(SubjectTitle) > 31:
       SubjectTitle = SubjectTitle[:31]
     
-    
+    if CourseCode == 'COMP1521':
+      print(CcoreL)
     nameReq = None
     if Grade in failUOC or Grade in unrsUOC or Grade == None:
       nameReq = ''
