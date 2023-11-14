@@ -140,6 +140,7 @@ try:
       SubjectTitle = SubjectTitle[:31]
     
     nameReq = None
+    print(CourseCode)
     if Grade in failUOC or Grade in unrsUOC or Grade == None:
       nameReq = ''
     elif CourseCode in ScoreL:
@@ -163,7 +164,7 @@ try:
     else:
       nameReq = 'Could not be allocated'
       UOCString = '  0uoc'
-          
+    print(CcoreL)      
     print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}  {nameReq}")
     
 
