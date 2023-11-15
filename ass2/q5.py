@@ -226,14 +226,16 @@ try:
       if subjInfoL != []:
         print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
         for subj in subjInfoL:
-          print(f"- {subj[0]} {subj[1]}")
+          if not isinstance(subj, int):
+            print(f"- {subj[0]} {subj[1]}")
   for courseL in CcoreL:
     if len(courseL) > 1:
       subjInfoL = getNumUocRemain(db, courseL)
       if subjInfoL != []:
         print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
         for subj in subjInfoL:
-          print(f"- {subj[0]} {subj[1]}")
+          if not isinstance(subj, int):
+            print(f"- {subj[0]} {subj[1]}")
   
   if not checkLowerLimit(SelecL[-4], SelecL[-3]):
     print(f"Need {SelecL[-3] - SelecL[-4]} more UOC for {SelecL[-1]}")
