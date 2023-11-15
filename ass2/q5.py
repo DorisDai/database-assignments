@@ -105,7 +105,7 @@ try:
     exit(1)
   #print(stuInfo) # debug
   proQury = """
-  select Pg.code, Sr.code, Pg.name
+  select Pg.code, Sr.code
   from Program_enrolments as Pe
   join Programs as Pg on Pe.program = Pg.id
   join Stream_enrolments as Se on Se.part_of = Pe.id
