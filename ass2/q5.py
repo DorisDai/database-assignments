@@ -152,7 +152,6 @@ try:
   geneL = []
   freeL = []
   streamReqs = getStreamReq(db, strmCode)
-  print(f"{progCode} {strmCode} {pgName}")
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
     if rtype == 'core':
       newCoreL = acadobjs.split(',')
@@ -192,6 +191,7 @@ try:
       geneL.append(reqName)
   
   gradesL = transcript(db, zid)
+  print(f"{progCode} {strmCode} {pgName}")
   failUOC = 'AF,FL,UF,E,F'.split(',')
   unrsUOC = 'AS,AW,PW,NA,RD,NF,NC,LE,PE,WD,WJ'.split(',')
   total_achieved_uoc = 0
