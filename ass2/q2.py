@@ -49,7 +49,7 @@ try:
   print(f"{subject} {subjectInfo[2]}")
   print("Term  Satis  #resp   #stu  Convenor")
   for term, sf, nResp, name, nStu in resultL:
-
+    # format string and print message
     if sf == None:
       sf = f"{'?':>6} "
     else:
@@ -64,12 +64,6 @@ try:
       name = f"{'?':>6}"
     print(f"{term} " + sf + nResp + f"{nStu:6d}  " + name)
   
-  #print(subjectInfo)  #debug
-
-  # List satisfaction for subject over time
-
-  # ... add your code here ...
-# ???? why do we need catch db error ???
 except Exception as err:
   print(err)
 finally:

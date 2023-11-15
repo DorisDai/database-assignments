@@ -95,13 +95,14 @@ try:
     where Pro.code = %s
     order by 
       case
-        when rtype = 'uoc' then 2
-        when rtype = 'stream' then 1
+        when rtype = 'uoc' then 1
+        when rtype = 'stream' then 2
         when rtype = 'core' then 3
         when rtype = 'elective' then 4
         when rtype = 'gened' then 5
         when rtype = 'free' then 6
-      end
+      end,
+      R.id
     """
   elif codeOf == "stream":
     strmInfo = getStream(db,code)
@@ -122,7 +123,8 @@ try:
         when rtype = 'elective' then 4
         when rtype = 'gened' then 5
         when rtype = 'free' then 6
-      end
+      end,
+      R.id
     """
   cur = db.cursor()
   cur.execute(reqsql, [code])

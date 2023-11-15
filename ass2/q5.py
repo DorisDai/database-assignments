@@ -130,7 +130,6 @@ try:
     if not progInfo:
       print(f"Invalid program code {progCode}")
       exit(1)
-    #print(progInfo)  #debug
     pgName = progInfo[2]
   else:
     progCode = currProgCode
@@ -140,8 +139,6 @@ try:
     if not strmInfo:
       print(f"Invalid program code {strmCode}")
       exit(1)
-    #print(strmInfo)  #debug
-    
   else:
     strmCode = currStreamCode
   # suppose every students all enrolled in 1 program and 1 stream
@@ -153,13 +150,13 @@ try:
   freeL = []
   streamReqs = getStreamReq(db, strmCode)
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
+    # filling stream requirements list
     if rtype == 'core':
       newCoreL = acadobjs.split(',')
       newCoreL.append(reqName)
       ScoreL.append(newCoreL)
     elif rtype == 'elective':
       newCoreL = acadobjs.split(',')
-      
       newCoreL.append(0)
       newCoreL.append(min_req)
       newCoreL.append(max_req)
@@ -170,8 +167,10 @@ try:
       freeL.append(min_req)
       freeL.append(max_req)
       freeL.append(reqName)
+      
   courseReqs = getProReq(db, progCode)
   for streamName, reqName, rtype, min_req, max_req, acadobjs in courseReqs:
+    # filling program requirements list
     if rtype == 'core':
       newCoreL = acadobjs.split(',')
       newCoreL.append(reqName)
@@ -189,9 +188,11 @@ try:
       geneL.append(min_req)
       geneL.append(max_req)
       geneL.append(reqName)
-  
+  # get student transcript
   gradesL = transcript(db, zid)
   print(f"{progCode} {strmCode} {pgName}")
+  
+  # define grade level
   failUOC = 'AF,FL,UF,E,F'.split(',')
   unrsUOC = 'AS,AW,PW,NA,RD,NF,NC,LE,PE,WD,WJ'.split(',')
   total_achieved_uoc = 0
@@ -219,6 +220,7 @@ try:
       SubjectTitle = SubjectTitle[:31]
     
     nameReq = None
+    # find which requirement current course may fit, get requirement name
     if Grade in failUOC or Grade in unrsUOC or Grade == f"{'-':>2}":
       nameReq = ''
     elif checkInCoreList(CourseCode, ScoreL):
@@ -252,6 +254,7 @@ try:
   # print achieved uoc and wam
   print(f"UOC = {total_achieved_uoc}, WAM = {round(weighted_mark_sum / total_attempted_uoc, 1)}")
 
+  # print not completed requirements
   allCompleted = True
   if ScoreL != []:
     for courseL in ScoreL:
@@ -302,8 +305,11 @@ try:
   if geneL != [] and not checkLowerLimit(geneL[-4], geneL[-3]):
     allCompleted = False
     print(f"Need {geneL[-3] - geneL[-4]} more UOC for {geneL[-1]}")
+  # if all completed print graduate message
   if allCompleted:
     print("Eligible to graduate")
+except Exception as err:
+  print(err)
 finally:
   if db:
     db.close()

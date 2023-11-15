@@ -48,7 +48,6 @@ try:
   for lterm, lSCount in lStudentCount:
     for sterm, iScount in iStudentCount:
       if (lterm == sterm):
-
         print(f"{sterm} {lSCount:6d} {iScount:6d} {lSCount/iScount:6.1f}")
       
 except Exception as err:
