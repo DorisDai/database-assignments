@@ -143,6 +143,7 @@ try:
       exit(1)
     #print(strmInfo)  #debug
   else:
+    print('hiii')
     strmCode = currStreamCode
 
   # suppose every students all enrolled in 1 program and 1 stream
