@@ -71,6 +71,7 @@ def removeFromCoreList(courseCode, coreLists):
   for coreList in coreLists:
     for course in coreList:
       if courseCode in course:
+        coreList.remove(course)
         return coreList[-1]
   return False
 
