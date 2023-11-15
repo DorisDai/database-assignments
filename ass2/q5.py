@@ -56,6 +56,7 @@ def checkLimit(count, max):
   else:
     return False
 def checkLowerLimit(count, min):
+  print(count, max)
   if min == None or count >= max:
     return True
   else:
