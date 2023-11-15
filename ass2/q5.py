@@ -135,7 +135,7 @@ try:
     progCode = currProgCode
     
 
-
+  print(progCode, strmCode, currProgCode, currStreamCode)
   if strmCode:
     strmInfo = getStream(db,strmCode)
     if not strmInfo:
