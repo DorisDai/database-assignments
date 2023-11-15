@@ -238,6 +238,7 @@ try:
           if not isinstance(subj, int):
             print(f"- {subj[0]} {subj[1]}")
   
+  print(SelecL[-4], SelecL[-3], SelecL)
   if not checkLowerLimit(SelecL[-4], SelecL[-3]):
     print(f"Need {SelecL[-3] - SelecL[-4]} more UOC for {SelecL[-1]}")
   if not checkLowerLimit(CelecL[-4], CelecL[-3]):
