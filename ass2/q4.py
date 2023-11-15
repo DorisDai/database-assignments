@@ -49,9 +49,10 @@ try:
   """
   cur.execute(proQury, [zid])
   proEnrol = cur.fetchone()
-  print(f"{proEnrol[0]} {proEnrol[1]} {proEnrol[2]}")
+  
 
   gradesL = transcript(db, zid)
+  print(f"{proEnrol[0]} {proEnrol[1]} {proEnrol[2]}")
   failUOC = 'AF,FL,UF,E,F'.split(',')
   unrsUOC = 'AS,AW,PW,NA,RD,NF,NC,LE,PE,WD,WJ'.split(',')
   total_achieved_uoc = 0
