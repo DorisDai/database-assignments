@@ -125,6 +125,7 @@ try:
   """
   cur.execute(proQury, [zid])
   currProgCode, currStreamCode = cur.fetchone()
+  print(progCode, strmCode, currProgCode, currStreamCode)
   if progCode:
     progInfo = getProgram(db,progCode)
     if not progInfo:
