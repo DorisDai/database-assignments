@@ -146,7 +146,7 @@ try:
   else:
     print('hiii')
     strmCode = currStreamCode
-
+  print(progCode, strmCode)
   # suppose every students all enrolled in 1 program and 1 stream
   ScoreL = []
   SelecL = []
