@@ -256,8 +256,13 @@ try:
         if subjInfoL != []:
           print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
           for subj in subjInfoL:
-            if not isinstance(subj, int):
+            if not isinstance(subj, (int, list)):
               print(f"- {subj[0]} {subj[1]}")
+            elif isinstance(subj, list):
+              course1 = subj[0]
+              course2 = subj[0]
+              print(f"- {course1[0]} {course1[1]}")
+              print(f"  or {course2[0]} {course2[1]}")
   
   print(SelecL[-4], SelecL[-3], SelecL)
   if SelecL != [] and not checkLowerLimit(SelecL[-4], SelecL[-3]):
