@@ -144,7 +144,6 @@ try:
       freeL.append(min_req)
       freeL.append(max_req)
       freeL.append(reqName)
-  print(ScoreL, SelecL, geneL, freeL)
   courseReqs = getProReq(db, '3778')
   for streamName, reqName, rtype, min_req, max_req, acadobjs in courseReqs:
     if rtype == 'core':
@@ -162,7 +161,6 @@ try:
       geneL.append(min_req)
       geneL.append(max_req)
       geneL.append(reqName)
-  print(CcoreL, CelecL, geneL, freeL)
   
   gradesL = transcript(db, zid)
   failUOC = 'AF,FL,UF,E,F'.split(',')
@@ -191,8 +189,6 @@ try:
     if len(SubjectTitle) > 31:
       SubjectTitle = SubjectTitle[:31]
     
-    if CourseCode == 'COMP1521':
-      print(CcoreL)
     nameReq = None
     if Grade in failUOC or Grade in unrsUOC or Grade == f"{'-':>3}":
       nameReq = ''
@@ -200,8 +196,6 @@ try:
       nameReq = removeFromCoreList(CourseCode, ScoreL)
     elif checkInCoreList(CourseCode, CcoreL):
       nameReq = removeFromCoreList(CourseCode, CcoreL)
-      if CourseCode == 'COMP1521':
-        print(CcoreL)
     elif inElectiveList(CourseCode, SelecL) and checkLimit(SelecL[-4] + UOC, SelecL[-2]):
       nameReq = SelecL[-1]
       SelecL[-4] += UOC
@@ -251,12 +245,10 @@ try:
     
     for courseL in CcoreL:
       if len(courseL) > 1:
-        print(courseL)
         subjInfoL = getNumUocRemain(db, courseL)
         if subjInfoL != []:
           print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
           for subj in subjInfoL:
-            print(subj)
             if not isinstance(subj, (int, list)):
               print(f"- {subj[0]} {subj[1]}")
             elif isinstance(subj, list):
@@ -264,8 +256,7 @@ try:
               course2 = subj[1]
               print(f"- {course1[0]} {course1[1]}")
               print(f"  or {course2[0]} {course2[1]}")
-  
-  print(SelecL[-4], SelecL[-3], SelecL)
+
   if SelecL != [] and not checkLowerLimit(SelecL[-4], SelecL[-3]):
     print(f"Need {SelecL[-3] - SelecL[-4]} more UOC for {SelecL[-1]}")
   if CelecL != [] and not checkLowerLimit(CelecL[-4], CelecL[-3]):
