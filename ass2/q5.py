@@ -228,22 +228,17 @@ try:
     else:
       nameReq = 'Could not be allocated'
       UOCString = ' 0uoc'  
-      UOC = 0
     print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}  {nameReq}")
     
 
     # calculate attempted uoc and achieved uoc and weighted_mark
-    if Grade in achievedUOC:
+    if Grade in achievedUOC and UOCString != ' 0uoc':
       total_achieved_uoc += UOC
     if Grade in wamUOC:
       total_attempted_uoc += UOC
-      if UOC == 0:
-        print(UOC, weighted_mark_sum)
       if Mark == f"{'-':>3}":
         Mark = 0
       weighted_mark_sum += Mark * UOC
-      if UOC == 0:
-        print(UOC, weighted_mark_sum)
   # print achieved uoc and wam
   print(f"UOC = {total_achieved_uoc}, WAM = {round(weighted_mark_sum / total_attempted_uoc, 1)}")
 
