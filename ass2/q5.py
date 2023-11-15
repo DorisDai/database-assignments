@@ -243,7 +243,7 @@ try:
               print(f"- {subj[0]} {subj[1]}")
             elif isinstance(subj, list):
               course1 = subj[0]
-              course2 = subj[0]
+              course2 = subj[1]
               print(f"- {course1[0]} {course1[1]}")
               print(f"  or {course2[0]} {course2[1]}")
               
@@ -261,7 +261,7 @@ try:
               print(f"- {subj[0]} {subj[1]}")
             elif isinstance(subj, list):
               course1 = subj[0]
-              course2 = subj[0]
+              course2 = subj[1]
               print(f"- {course1[0]} {course1[1]}")
               print(f"  or {course2[0]} {course2[1]}")
   
