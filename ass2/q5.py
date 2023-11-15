@@ -202,10 +202,10 @@ try:
     elif inElectiveList(CourseCode, CelecL) and checkLimit(CelecL[-4] + UOC, CelecL[-2]):
       nameReq = CelecL[-1]
       CelecL[-4] += UOC
-    elif checkLimit(geneL[-4] + UOC, geneL[-2]):
+    elif geneL != [] and checkLimit(geneL[-4] + UOC, geneL[-2]):
       nameReq = geneL[-1]
       geneL[-4] += UOC
-    elif checkLimit(freeL[-4] + UOC, freeL[-3]):
+    elif freeL != [] and checkLimit(freeL[-4] + UOC, freeL[-3]):
       nameReq = freeL[-1]
       freeL[-4] += UOC  
     else:
