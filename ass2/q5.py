@@ -127,6 +127,7 @@ try:
   geneL = []
   freeL = []
   streamReqs = getStreamReq(db, strmCode)
+  print(streamReqs)
   # assume requirement type at most 1 for program  or stream
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
     if rtype == 'core':
@@ -145,6 +146,7 @@ try:
       freeL.append(max_req)
       freeL.append(reqName)
   courseReqs = getProReq(db, progCode)
+  print(courseReqs)
   for streamName, reqName, rtype, min_req, max_req, acadobjs in courseReqs:
     if rtype == 'core':
       newCoreL = acadobjs.split(',')
