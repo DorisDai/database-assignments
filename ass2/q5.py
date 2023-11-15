@@ -189,10 +189,10 @@ try:
       nameReq = ''
     elif checkInCoreList(CourseCode, ScoreL):
       nameReq = removeFromCoreList(CourseCode, ScoreL)
-      if CourseCode == 'COMP1521':
-        print(CcoreL)
     elif checkInCoreList(CourseCode, CcoreL):
       nameReq = removeFromCoreList(CourseCode, CcoreL)
+      if CourseCode == 'COMP1521':
+        print(CcoreL)
     elif inElectiveList(CourseCode, SelecL) and checkLimit(SelecL[-4] + UOC, SelecL[-2]):
       nameReq = SelecL[-1]
       SelecL[-4] += UOC
