@@ -84,6 +84,15 @@ def getNumUocRemain(db, coreList):
       courseInfo = getCourseUOCAndName(db, core)
       result.append(courseInfo)
       totalUoc += courseInfo[2]
+    elif len(core) == 21 and '{' in core and ';' in core:
+      alternativeC = core.split(';')
+      alt = []
+      course1Info = getCourseUOCAndName(db, alternativeC[0][1:])
+      alt.append(course1Info)
+      course2Info = getCourseUOCAndName(db, alternativeC[1][:-1])
+      alt.append(course2Info)
+      result.append(alt)
+      totalUoc += course2Info[2]
   if result != []:
     result.append(totalUoc)
   return result
@@ -231,8 +240,14 @@ try:
         if subjInfoL != []:
           print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
           for subj in subjInfoL:
-            if not isinstance(subj, int):
+            if not isinstance(subj, (int, list)):
               print(f"- {subj[0]} {subj[1]}")
+            elif isinstance(subj, list):
+              course1 = subj[0]
+              course2 = subj[0]
+              print(f"- {course1[0]} {course1[1]}")
+              print(f"  or {course2[0]} {course2[1]}")
+              
   if CcoreL != []:
     
     for courseL in CcoreL:
