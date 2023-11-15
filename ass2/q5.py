@@ -189,6 +189,8 @@ try:
       nameReq = ''
     elif checkInCoreList(CourseCode, ScoreL):
       nameReq = removeFromCoreList(CourseCode, ScoreL)
+      if CourseCode == 'COMP1521':
+        print(CcoreL)
     elif checkInCoreList(CourseCode, CcoreL):
       nameReq = removeFromCoreList(CourseCode, CcoreL)
     elif inElectiveList(CourseCode, SelecL) and checkLimit(SelecL[-4] + UOC, SelecL[-2]):
@@ -231,6 +233,7 @@ try:
             if not isinstance(subj, int):
               print(f"- {subj[0]} {subj[1]}")
   if CcoreL != []:
+    
     for courseL in CcoreL:
       if len(courseL) > 1:
         subjInfoL = getNumUocRemain(db, courseL)
