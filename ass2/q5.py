@@ -50,6 +50,15 @@ def inElectiveList(CourseCode, SelecL):
         return True
   if not returned:
     return False
+def checkEleAvaliable(courseCode, ListofElecList, UOC, addOne):
+  inlist = False
+  for elecList in ListofElecList:
+    if inElectiveList(courseCode, elecList) and checkLimit(elecList[-4] + UOC, elecList[-3]):
+      if addOne:
+        elecList[-4] += UOC
+      inlist = elecList[-1]
+  return inlist
+    
 def checkLimit(count, upperLimit):
   if upperLimit == None or count <= upperLimit:
     return True
@@ -144,18 +153,19 @@ try:
   geneL = []
   freeL = []
   streamReqs = getStreamReq(db, strmCode)
-  # assume requirement type at most 1 for program  or stream
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
     if rtype == 'core':
       newCoreL = acadobjs.split(',')
       newCoreL.append(reqName)
       ScoreL.append(newCoreL)
     elif rtype == 'elective':
-      SelecL += acadobjs.split(',')
-      SelecL.append(0)
-      SelecL.append(min_req)
-      SelecL.append(max_req)
-      SelecL.append(reqName)
+      newCoreL = acadobjs.split(',')
+      
+      newCoreL.append(0)
+      newCoreL.append(min_req)
+      newCoreL.append(max_req)
+      newCoreL.append(reqName)
+      SelecL.append(newCoreL)
     elif rtype == 'free':
       freeL.append(0)
       freeL.append(min_req)
@@ -168,11 +178,13 @@ try:
       newCoreL.append(reqName)
       CcoreL.append(newCoreL)
     elif rtype == 'elective':
-      CelecL += acadobjs.split(',')
-      CelecL.append(0)
-      CelecL.append(min_req)
-      CelecL.append(max_req)
-      CelecL.append(reqName)
+      newCoreL = acadobjs.split(',')
+      
+      newCoreL.append(0)
+      newCoreL.append(min_req)
+      newCoreL.append(max_req)
+      newCoreL.append(reqName)
+      CelecL.append(newCoreL)
     elif rtype == 'gened':
       geneL.append(0)
       geneL.append(min_req)
@@ -213,12 +225,10 @@ try:
       nameReq = removeFromCoreList(CourseCode, ScoreL)
     elif checkInCoreList(CourseCode, CcoreL):
       nameReq = removeFromCoreList(CourseCode, CcoreL)
-    elif inElectiveList(CourseCode, SelecL) and checkLimit(SelecL[-4] + UOC, SelecL[-3]):
-      nameReq = SelecL[-1]
-      SelecL[-4] += UOC
-    elif inElectiveList(CourseCode, CelecL) and checkLimit(CelecL[-4] + UOC, CelecL[-3]):
-      nameReq = CelecL[-1]
-      CelecL[-4] += UOC
+    elif checkEleAvaliable(CourseCode, SelecL, UOC, False):
+      nameReq = checkEleAvaliable(CourseCode, SelecL, UOC, True)
+    elif checkEleAvaliable(CourseCode, CelecL, UOC, False):
+      nameReq = checkEleAvaliable(CourseCode, CelecL, UOC, True)
     elif geneL != [] and checkLimit(geneL[-4] + UOC, geneL[-2]):
       nameReq = geneL[-1]
       geneL[-4] += UOC
@@ -260,7 +270,6 @@ try:
               print(f"  or {course2[0]} {course2[1]}")
               
   if CcoreL != []:
-    
     for courseL in CcoreL:
       if len(courseL) > 1:
         allCompleted = False
@@ -276,12 +285,17 @@ try:
               print(f"- {course1[0]} {course1[1]}")
               print(f"  or {course2[0]} {course2[1]}")
 
-  if SelecL != [] and not checkLowerLimit(SelecL[-4], SelecL[-3]):
-    allCompleted = False
-    print(f"Need {SelecL[-3] - SelecL[-4]} more UOC for {SelecL[-1]}")
-  if CelecL != [] and not checkLowerLimit(CelecL[-4], CelecL[-3]):
-    allCompleted = False
-    print(f"Need {CelecL[-3] - CelecL[-4]} more UOC for {CelecL[-1]}")
+  if SelecL != []:
+    for listElec in SelecL:
+      if not checkLowerLimit(listElec[-4], listElec[-3]):
+        allCompleted = False
+        print(f"Need {listElec[-3] - listElec[-4]} more UOC for {listElec[-1]}")
+        
+  if CelecL != []:
+    for listElec in CelecL:
+      if not checkLowerLimit(listElec[-4], listElec[-3]):
+        allCompleted = False
+        print(f"Need {listElec[-3] - listElec[-4]} more UOC for {listElec[-1]}")
   if freeL != [] and not checkLowerLimit(freeL[-4], freeL[-3]):
     allCompleted = False
     print(f"Need {freeL[-3] - freeL[-4]} more UOC for {freeL[-1]}")
