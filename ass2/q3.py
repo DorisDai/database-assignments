@@ -93,6 +93,15 @@ try:
     from Requirements as R
     join Programs as Pro on R.for_program = Pro.id
     where Pro.code = %s
+    order by 
+      case
+        when rtype = 'uoc' then 1
+        when rtype = 'stream' then 2
+        when rtype = 'core' then 3
+        when rtype = 'elective' then 4
+        when rtype = 'gened' then 5
+        when rtype = 'free' then 6
+      end
     """
   elif codeOf == "stream":
     strmInfo = getStream(db,code)
