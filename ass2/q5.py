@@ -213,10 +213,10 @@ try:
       nameReq = removeFromCoreList(CourseCode, ScoreL)
     elif checkInCoreList(CourseCode, CcoreL):
       nameReq = removeFromCoreList(CourseCode, CcoreL)
-    elif inElectiveList(CourseCode, SelecL) and checkLimit(SelecL[-4] + UOC, SelecL[-2]):
+    elif inElectiveList(CourseCode, SelecL) and checkLimit(SelecL[-4] + UOC, SelecL[-3]):
       nameReq = SelecL[-1]
       SelecL[-4] += UOC
-    elif inElectiveList(CourseCode, CelecL) and checkLimit(CelecL[-4] + UOC, CelecL[-2]):
+    elif inElectiveList(CourseCode, CelecL) and checkLimit(CelecL[-4] + UOC, CelecL[-3]):
       nameReq = CelecL[-1]
       CelecL[-4] += UOC
     elif geneL != [] and checkLimit(geneL[-4] + UOC, geneL[-2]):
