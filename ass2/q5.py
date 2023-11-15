@@ -114,7 +114,7 @@ try:
     exit(1)
   #print(stuInfo) # debug
   proQury = """
-  select Pg.code, Sr.code
+  select Pg.code, Sr.code, Pg.name
   from Program_enrolments as Pe
   join Programs as Pg on Pe.program = Pg.id
   join Stream_enrolments as Se on Se.part_of = Pe.id
@@ -124,7 +124,7 @@ try:
   order by Pe.term desc
   """
   cur.execute(proQury, [zid])
-  currProgCode, currStreamCode = cur.fetchone()
+  currProgCode, currStreamCode, pgName = cur.fetchone()
   print(progCode, strmCode, currProgCode, currStreamCode)
   if progCode:
     progInfo = getProgram(db,progCode)
@@ -132,8 +132,10 @@ try:
       print(f"Invalid program code {progCode}")
       exit(1)
     #print(progInfo)  #debug
+    pgName = progInfo[2]
   else:
     progCode = currProgCode
+    
     
 
   print(progCode, strmCode, currProgCode, currStreamCode)
@@ -143,10 +145,11 @@ try:
       print(f"Invalid program code {strmCode}")
       exit(1)
     #print(strmInfo)  #debug
+    
   else:
     print('hiii')
     strmCode = currStreamCode
-  print(progCode, strmCode)
+  print(f"{progCode} {strmCode} {pgName}")
   # suppose every students all enrolled in 1 program and 1 stream
   ScoreL = []
   SelecL = []

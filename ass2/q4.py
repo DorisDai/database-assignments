@@ -36,6 +36,21 @@ try:
     print(f"Invalid student ID {zid}")
     exit()
   # student info qury
+  cur = db.cursor()
+  proQury = """
+  select Pg.code, Sr.code, Pg.name
+  from Program_enrolments as Pe
+  join Programs as Pg on Pe.program = Pg.id
+  join Stream_enrolments as Se on Se.part_of = Pe.id
+  join Streams as Sr on Sr.id = Se.stream
+  join People as P on P.id = Pe.student
+  where P.zid = %s
+  order by Pe.term desc
+  """
+  cur.execute(proQury, [zid])
+  proEnrol = cur.fetchone()
+  print(f"{proEnrol[0]} {proEnrol[1]} {proEnrol[2]}")
+
   gradesL = transcript(db, zid)
   failUOC = 'AF,FL,UF,E,F'.split(',')
   unrsUOC = 'AS,AW,PW,NA,RD,NF,NC,LE,PE,WD,WJ'.split(',')

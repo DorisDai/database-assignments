@@ -69,19 +69,7 @@ def transcript(db, zid):
 
   sId = stuInfo[3]
   # student enrolled program and stream info qury
-  proQury = """
-  select Pg.code, Sr.code, Pg.name
-  from Program_enrolments as Pe
-  join Programs as Pg on Pe.program = Pg.id
-  join Stream_enrolments as Se on Se.part_of = Pe.id
-  join Streams as Sr on Sr.id = Se.stream
-  where Pe.student = %s
-  order by Pe.term desc
-  """
-  cur.execute(proQury, [sId])
-  proEnrol = cur.fetchone()
-  print(f"{proEnrol[0]} {proEnrol[1]} {proEnrol[2]}")
-
+  
   # students' courses' grades info qury
   transcriptQ = """
   select Subj.code, T.code, Subj.title, Ce.mark, Ce.grade, Subj.uoc
