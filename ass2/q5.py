@@ -215,7 +215,7 @@ try:
     
 
     # calculate attempted uoc and achieved uoc and weighted_mark
-    if Grade in achievedUOC:
+    if Grade in achievedUOC and UOCString != ' 0uoc':
       total_achieved_uoc += UOC
     if Grade in wamUOC:
       total_attempted_uoc += UOC
