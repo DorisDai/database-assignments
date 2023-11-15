@@ -185,12 +185,12 @@ try:
     if Mark == None:
       Mark = f"{'-':>3}"
     if Grade == None:
-      Grade = f"{'-':>3}"
+      Grade = f"{'-':>2}"
     if len(SubjectTitle) > 31:
       SubjectTitle = SubjectTitle[:31]
     
     nameReq = None
-    if Grade in failUOC or Grade in unrsUOC or Grade == f"{'-':>3}":
+    if Grade in failUOC or Grade in unrsUOC or Grade == f"{'-':>2}":
       nameReq = ''
     elif checkInCoreList(CourseCode, ScoreL):
       nameReq = removeFromCoreList(CourseCode, ScoreL)
@@ -219,7 +219,7 @@ try:
       total_achieved_uoc += UOC
     if Grade in wamUOC:
       total_attempted_uoc += UOC
-      if Mark == f"{'-':>2}":
+      if Mark == f"{'-':>3}":
         Mark = 0
       weighted_mark_sum += Mark * UOC
   # print achieved uoc and wam
