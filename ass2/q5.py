@@ -98,19 +98,33 @@ def getNumUocRemain(db, coreList):
 
 try:
   db = psycopg2.connect("dbname=ass2")
-
+  cur = db.cursor()
   stuInfo = getStudent(db,zid)
   if not stuInfo:
     print(f"Invalid student id {zid}")
     exit(1)
   #print(stuInfo) # debug
-
+  proQury = """
+  select Pg.code, Sr.code, Pg.name
+  from Program_enrolments as Pe
+  join Programs as Pg on Pe.program = Pg.id
+  join Stream_enrolments as Se on Se.part_of = Pe.id
+  join Streams as Sr on Sr.id = Se.stream
+  where Pe.student = %s
+  order by Pe.term desc
+  """
+  cur.execute(proQury, [zid])
+  currProgCode, currStreamCode = cur.fetchone()
   if progCode:
     progInfo = getProgram(db,progCode)
     if not progInfo:
       print(f"Invalid program code {progCode}")
       exit(1)
     #print(progInfo)  #debug
+  else:
+    progCode = currProgCode
+    
+
 
   if strmCode:
     strmInfo = getStream(db,strmCode)
@@ -118,6 +132,8 @@ try:
       print(f"Invalid program code {strmCode}")
       exit(1)
     #print(strmInfo)  #debug
+  else:
+    strmCode = currStreamCode
 
   # suppose every students all enrolled in 1 program and 1 stream
   ScoreL = []
@@ -127,7 +143,6 @@ try:
   geneL = []
   freeL = []
   streamReqs = getStreamReq(db, strmCode)
-  print(streamReqs)
   # assume requirement type at most 1 for program  or stream
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
     if rtype == 'core':
@@ -146,7 +161,6 @@ try:
       freeL.append(max_req)
       freeL.append(reqName)
   courseReqs = getProReq(db, progCode)
-  print(courseReqs)
   for streamName, reqName, rtype, min_req, max_req, acadobjs in courseReqs:
     if rtype == 'core':
       newCoreL = acadobjs.split(',')
@@ -213,11 +227,12 @@ try:
     else:
       nameReq = 'Could not be allocated'
       UOCString = ' 0uoc'  
+      UOC = 0
     print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}  {nameReq}")
     
 
     # calculate attempted uoc and achieved uoc and weighted_mark
-    if Grade in achievedUOC and UOCString != ' 0uoc':
+    if Grade in achievedUOC:
       total_achieved_uoc += UOC
     if Grade in wamUOC:
       total_attempted_uoc += UOC
