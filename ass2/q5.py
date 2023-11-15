@@ -221,31 +221,33 @@ try:
   print(f"UOC = {total_achieved_uoc}, WAM = {round(weighted_mark_sum / total_attempted_uoc, 1)}")
 
   allCompleted = True
-  for courseL in ScoreL:
-    if len(courseL) > 1:
-      subjInfoL = getNumUocRemain(db, courseL)
-      if subjInfoL != []:
-        print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
-        for subj in subjInfoL:
-          if not isinstance(subj, int):
-            print(f"- {subj[0]} {subj[1]}")
-  for courseL in CcoreL:
-    if len(courseL) > 1:
-      subjInfoL = getNumUocRemain(db, courseL)
-      if subjInfoL != []:
-        print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
-        for subj in subjInfoL:
-          if not isinstance(subj, int):
-            print(f"- {subj[0]} {subj[1]}")
+  if ScoreL != []:
+    for courseL in ScoreL:
+      if len(courseL) > 1:
+        subjInfoL = getNumUocRemain(db, courseL)
+        if subjInfoL != []:
+          print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
+          for subj in subjInfoL:
+            if not isinstance(subj, int):
+              print(f"- {subj[0]} {subj[1]}")
+  if CcoreL != []:
+    for courseL in CcoreL:
+      if len(courseL) > 1:
+        subjInfoL = getNumUocRemain(db, courseL)
+        if subjInfoL != []:
+          print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
+          for subj in subjInfoL:
+            if not isinstance(subj, int):
+              print(f"- {subj[0]} {subj[1]}")
   
   print(SelecL[-4], SelecL[-3], SelecL)
-  if not checkLowerLimit(SelecL[-4], SelecL[-3]):
+  if SelecL != [] and not checkLowerLimit(SelecL[-4], SelecL[-3]):
     print(f"Need {SelecL[-3] - SelecL[-4]} more UOC for {SelecL[-1]}")
-  if not checkLowerLimit(CelecL[-4], CelecL[-3]):
+  if CelecL != [] and not checkLowerLimit(CelecL[-4], CelecL[-3]):
     print(f"Need {CelecL[-3] - CelecL[-4]} more UOC for {CelecL[-1]}")
-  if not checkLowerLimit(freeL[-4], freeL[-3]):
+  if freeL != [] and not checkLowerLimit(freeL[-4], freeL[-3]):
     print(f"Need {freeL[-3] - freeL[-4]} more UOC for {freeL[-1]}")
-  if not checkLowerLimit(geneL[-4], geneL[-3]):
+  if geneL != [] and not checkLowerLimit(geneL[-4], geneL[-3]):
     print(f"Need {geneL[-3] - geneL[-4]} more UOC for {geneL[-1]}")
 
 finally:
