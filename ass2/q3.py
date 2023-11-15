@@ -31,7 +31,7 @@ else:
 
 # this function will format requirements list from database return result
 def printFormatRequirements(reqList):
-  for programName, reqName, reqType, minReq, maxReq, acadobjs in reqs:
+  for programName, reqName, reqType, minReq, maxReq, acadobjs in reqList:
     # fomat uoc string
     if minReq == maxReq:
       uocString = str(minReq) + ' UOC'
