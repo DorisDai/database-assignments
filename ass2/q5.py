@@ -247,6 +247,7 @@ try:
   if ScoreL != []:
     for courseL in ScoreL:
       if len(courseL) > 1:
+        allCompleted = False
         subjInfoL = getNumUocRemain(db, courseL)
         if subjInfoL != []:
           print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
@@ -263,6 +264,7 @@ try:
     
     for courseL in CcoreL:
       if len(courseL) > 1:
+        allCompleted = False
         subjInfoL = getNumUocRemain(db, courseL)
         if subjInfoL != []:
           print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
@@ -276,14 +278,19 @@ try:
               print(f"  or {course2[0]} {course2[1]}")
 
   if SelecL != [] and not checkLowerLimit(SelecL[-4], SelecL[-3]):
+    allCompleted = False
     print(f"Need {SelecL[-3] - SelecL[-4]} more UOC for {SelecL[-1]}")
   if CelecL != [] and not checkLowerLimit(CelecL[-4], CelecL[-3]):
+    allCompleted = False
     print(f"Need {CelecL[-3] - CelecL[-4]} more UOC for {CelecL[-1]}")
   if freeL != [] and not checkLowerLimit(freeL[-4], freeL[-3]):
+    allCompleted = False
     print(f"Need {freeL[-3] - freeL[-4]} more UOC for {freeL[-1]}")
   if geneL != [] and not checkLowerLimit(geneL[-4], geneL[-3]):
+    allCompleted = False
     print(f"Need {geneL[-3] - geneL[-4]} more UOC for {geneL[-1]}")
-
+  if allCompleted:
+    print("Eligible to graduate")
 finally:
   if db:
     db.close()
