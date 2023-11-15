@@ -110,7 +110,8 @@ try:
   join Programs as Pg on Pe.program = Pg.id
   join Stream_enrolments as Se on Se.part_of = Pe.id
   join Streams as Sr on Sr.id = Se.stream
-  where Pe.student = %s
+  join People as P on P.id = Pe.student
+  where P.zid = %s
   order by Pe.term desc
   """
   cur.execute(proQury, [zid])
