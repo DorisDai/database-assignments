@@ -126,7 +126,7 @@ try:
   CelecL = []
   geneL = []
   freeL = []
-  streamReqs = getStreamReq(db, 'COMPA1')
+  streamReqs = getStreamReq(db, progCode)
   # assume requirement type at most 1 for program  or stream
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
     if rtype == 'core':
@@ -144,7 +144,7 @@ try:
       freeL.append(min_req)
       freeL.append(max_req)
       freeL.append(reqName)
-  courseReqs = getProReq(db, '3778')
+  courseReqs = getProReq(db, )
   for streamName, reqName, rtype, min_req, max_req, acadobjs in courseReqs:
     if rtype == 'core':
       newCoreL = acadobjs.split(',')
