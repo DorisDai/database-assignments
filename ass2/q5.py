@@ -73,13 +73,13 @@ def removeFromCoreList(courseCode, coreLists):
         return coreList[-1]
   return False
 
-def getNumUocRemain(coreList):
+def getNumUocRemain(db, coreList):
   result = []
   # result = [(coreInfo1), (coreInfo2),...., totalNumUoc]
   totalUoc = 0
   for core in coreList:
     if len(core) == 8:
-      courseInfo = getCourseUOCAndName(core)
+      courseInfo = getCourseUOCAndName(db, core)
       result.append(courseInfo)
       totalUoc += courseInfo[2]
   if result != []:
@@ -222,14 +222,14 @@ try:
   allCompleted = True
   for courseL in ScoreL:
     if len(courseL) > 1:
-      subjInfoL = getNumUocRemain(courseL)
+      subjInfoL = getNumUocRemain(db, courseL)
       if subjInfoL != []:
         print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
         for subj in subjInfoL:
           print(f"- {subj[0]} {subj[1]}")
   for courseL in CcoreL:
     if len(courseL) > 1:
-      subjInfoL = getNumUocRemain(courseL)
+      subjInfoL = getNumUocRemain(db, courseL)
       if subjInfoL != []:
         print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
         for subj in subjInfoL:
