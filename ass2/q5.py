@@ -27,8 +27,8 @@ if not digits.match(zid):
   print("Invalid student ID")
   exit(1)
 
-progCode = []
-strmCode = []
+progCode = None
+strmCode = None
 
 if argc == 4:
   progCode = sys.argv[2]
