@@ -125,7 +125,6 @@ try:
   """
   cur.execute(proQury, [zid])
   currProgCode, currStreamCode, pgName = cur.fetchone()
-  print(progCode, strmCode, currProgCode, currStreamCode)
   if progCode:
     progInfo = getProgram(db,progCode)
     if not progInfo:
@@ -136,9 +135,6 @@ try:
   else:
     progCode = currProgCode
     
-    
-
-  print(progCode, strmCode, currProgCode, currStreamCode)
   if strmCode:
     strmInfo = getStream(db,strmCode)
     if not strmInfo:
@@ -147,9 +143,7 @@ try:
     #print(strmInfo)  #debug
     
   else:
-    print('hiii')
     strmCode = currStreamCode
-  print(f"{progCode} {strmCode} {pgName}")
   # suppose every students all enrolled in 1 program and 1 stream
   ScoreL = []
   SelecL = []
@@ -158,6 +152,7 @@ try:
   geneL = []
   freeL = []
   streamReqs = getStreamReq(db, strmCode)
+  print(f"{progCode} {strmCode} {pgName}")
   for streamName, reqName, rtype, min_req, max_req, acadobjs in streamReqs:
     if rtype == 'core':
       newCoreL = acadobjs.split(',')
