@@ -55,7 +55,11 @@ def checkLimit(count, max):
     return True
   else:
     return False
-
+def checkLowerLimit(count, min):
+  if min == None or count >= max:
+    return True
+  else:
+    return False
 def checkInCoreList(courseCode, coreLists):
   for coreList in coreLists:
     for course in coreList:
@@ -68,7 +72,20 @@ def removeFromCoreList(courseCode, coreLists):
       if courseCode in course:
         return coreList[-1]
   return False
-  
+
+def getNumUocRemain(coreList):
+  result = []
+  # result = [(coreInfo1), (coreInfo2),...., totalNumUoc]
+  totalUoc = 0
+  for core in coreList:
+    if len(core) == 8:
+      courseInfo = getCourseUOCAndName(core)
+      result.append(courseInfo)
+      totalUoc += courseInfo[2]
+  if result != []:
+    result.append(totalUoc)
+  return result
+
 try:
   db = psycopg2.connect("dbname=ass2")
 
@@ -187,7 +204,7 @@ try:
       freeL[-4] += UOC  
     else:
       nameReq = 'Could not be allocated'
-      UOCString = '  0uoc'  
+      UOCString = ' 0uoc'  
     print(f"{CourseCode} {Term} {SubjectTitle:<32s}{Mark:>3} {Grade:>2s}  {UOCString}  {nameReq}")
     
 
@@ -202,6 +219,30 @@ try:
   # print achieved uoc and wam
   print(f"UOC = {total_achieved_uoc}, WAM = {round(weighted_mark_sum / total_attempted_uoc, 1)}")
 
+  allCompleted = True
+  for courseL in ScoreL:
+    if len(courseL) > 1:
+      subjInfoL = getNumUocRemain(courseL)
+      if subjInfoL != []:
+        print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
+        for subj in subjInfoL:
+          print(f"- {subj[0]} {subj[1]}")
+  for courseL in CcoreL:
+    if len(courseL) > 1:
+      subjInfoL = getNumUocRemain(courseL)
+      if subjInfoL != []:
+        print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
+        for subj in subjInfoL:
+          print(f"- {subj[0]} {subj[1]}")
+  
+  if not checkLowerLimit(SelecL[-4], SelecL[-3]):
+    print(f"Need {SelecL[-3] - SelecL[-4]} more UOC for {SelecL[-1]}")
+  if not checkLowerLimit(CelecL[-4], CelecL[-3]):
+    print(f"Need {CelecL[-3] - CelecL[-4]} more UOC for {CelecL[-1]}")
+  if not checkLowerLimit(freeL[-4], freeL[-3]):
+    print(f"Need {freeL[-3] - freeL[-4]} more UOC for {freeL[-1]}")
+  if not checkLowerLimit(geneL[-4], geneL[-3]):
+    print(f"Need {geneL[-3] - geneL[-4]} more UOC for {geneL[-1]}")
 
 finally:
   if db:

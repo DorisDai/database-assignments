@@ -123,3 +123,14 @@ def getStreamReq(db, code):
   cur.close()
 
   return reqL
+
+def getCourseUOCAndName(db, courseCode):
+  qury = """
+  select code, title, uoc from Subjects where code = %s
+  """
+  cur = db.cursor()
+  cur.execute(qury, [courseCode])
+  reqL = cur.fetchone()
+  cur.close()
+
+  return reqL
