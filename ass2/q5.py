@@ -50,14 +50,14 @@ def inElectiveList(CourseCode, SelecL):
         return True
   if not returned:
     return False
-def checkLimit(count, max):
-  if max == None or count <= max:
+def checkLimit(count, upperLimit):
+  if upperLimit == None or count <= upperLimit:
     return True
   else:
     return False
-def checkLowerLimit(count, min):
-  print(count, max)
-  if min == None or count >= max:
+def checkLowerLimit(count, lowerLimit):
+  print(count, lowerLimit)
+  if lowerLimit == None or count >= lowerLimit:
     return True
   else:
     return False
