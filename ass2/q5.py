@@ -219,7 +219,7 @@ try:
       total_achieved_uoc += UOC
     if Grade in wamUOC:
       total_attempted_uoc += UOC
-      if Mark == f"{'-':>3}":
+      if Mark == f"{'-':>2}":
         Mark = 0
       weighted_mark_sum += Mark * UOC
   # print achieved uoc and wam
