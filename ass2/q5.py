@@ -56,7 +56,6 @@ def checkLimit(count, upperLimit):
   else:
     return False
 def checkLowerLimit(count, lowerLimit):
-  print(count, lowerLimit)
   if lowerLimit == None or count >= lowerLimit:
     return True
   else:
@@ -84,7 +83,7 @@ def getNumUocRemain(db, coreList):
       courseInfo = getCourseUOCAndName(db, core)
       result.append(courseInfo)
       totalUoc += courseInfo[2]
-    elif len(core) == 21 and '{' in core and ';' in core:
+    elif len(core) == 19 and '{' in core and ';' in core:
       alternativeC = core.split(';')
       alt = []
       course1Info = getCourseUOCAndName(db, alternativeC[0][1:])
@@ -252,10 +251,12 @@ try:
     
     for courseL in CcoreL:
       if len(courseL) > 1:
+        print(courseL)
         subjInfoL = getNumUocRemain(db, courseL)
         if subjInfoL != []:
           print(f"Need {subjInfoL[-1]} more UOC for {courseL[-1]}")
           for subj in subjInfoL:
+            print(subj)
             if not isinstance(subj, (int, list)):
               print(f"- {subj[0]} {subj[1]}")
             elif isinstance(subj, list):
