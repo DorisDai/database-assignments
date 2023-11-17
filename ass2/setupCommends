@@ -6,5 +6,3 @@ source /localstorage/$USER/env
 cd 3311/ass2/
 
 git commit -am "q5" && git push
-
-give cs3311 ass ass.sql
