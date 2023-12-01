@@ -16,7 +16,7 @@
 --
 create or replace view Q1(state, nbreweries) 
 as 
-    select region as state, count(B.id) as nbreweries
+    select region, count(B.id)
     from Breweries B right join Locations L on B.located_in = L.id
     where L.country = 'Australia'
     group by region;
