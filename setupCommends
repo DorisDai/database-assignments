@@ -3,6 +3,6 @@ ssh z5314283@d2.cse.unsw.edu.au
 ssh nw-syd-vxdb2
 
 source /localstorage/$USER/env
-cd 3311/ass2/
+cd 3311/tut4/
 
-git commit -am "q5" && git push
+git commit -am "examprepare" && git push
