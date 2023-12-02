@@ -8,7 +8,7 @@ as
     select Su.name, Pr.ptype, count(Pr.id)
     from properties as Pr
     join Streets as St on St.id = Pr.street
-    join suburb as Su.id = st.suburb
+    join suburbs as Su on Su.id = St.suburb
     where Pr.sold_date is null
     group by Su.name, Pr.ptype
     order by ptype, Su.name
