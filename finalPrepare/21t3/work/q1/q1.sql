@@ -8,5 +8,5 @@ as
     select sold_date, sold_price, ptype
     from Properties
     where sold_date is not null
-    order by sold_date
+    order by sold_date DESC
 ;
