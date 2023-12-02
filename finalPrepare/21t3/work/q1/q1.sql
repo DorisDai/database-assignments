@@ -8,5 +8,5 @@ as
     select sold_date, sold_price, ptype
     from Properties
     where sold_date = (select max(sold_date) from properties)
-    order by price
+    order by sold_price
 ;
