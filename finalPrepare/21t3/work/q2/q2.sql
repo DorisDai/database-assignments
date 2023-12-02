@@ -4,5 +4,13 @@
 
 create or replace view q2(suburb, ptype, nprops)
 as
-... your SQL code goes here ...
+    --  gives a list of how many unsold properties of each type are in each suburb.
+    select Su.name, Pr.ptype, count(Pr.id)
+    from properties as Pr
+    join Streets as St on St.id = Pr.street
+    join suburb as Su.id = st.suburb
+    where Pr.sold_date is null
+    group by Su.name, Pr.ptype
+    order by ptype, Su.name
+
 ;
