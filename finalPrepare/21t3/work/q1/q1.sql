@@ -7,6 +7,6 @@ as
     -- about the most recently sold properties.
     select sold_date, sold_price, ptype
     from Properties
-    where sold_date is not null
-    order by sold_date DESC
+    where sold_date = (select max(sold_date) from properties)
+    order by price
 ;
