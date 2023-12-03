@@ -24,13 +24,38 @@ suburb = sys.argv[1]
 
 
 try:
-    ### replace this line with your Python code ###
+    db = psycopg2.connect("dbname=bank")
+    cur = db.cursor()
+    findsub = """
+    select location, assets, id from Branches 
+    where location = %s
+    """
+    cur.execute(findsub, [suburb])
+    brInfo = cur.fetchone()
+    if not brInfo:
+        print(f'No such branch {suburb}')
+        exit(1)
+    
+    print(f'{brInfo[0]} branch ({brInfo[2]}) holds')
+    accsQ ="""
+    select A.id, C.given || C.family, C.lives_in, A.balance
+    from Branches B
+    join Accounts A on B.id = A.held_at
+    join Held_by H on H.account = A.id
+    join Customer C on C.id = H.customer
+    where B.id = %s
+    """
+    cur.execute(accsQ)
+    accs = cur.fetchall()
+    brsum = 0
+    for id, name, livesIn, balance in accs:
+        print(f'- account {id} owned by {name} from {livesIn} with {balance}')
+        brsum += balance
+    print(f'Assets: {brsum}')
+    if brsum != brInfo[1]:
+        print('Discrepancy between assets and sum of account balances')
+    
 
-except psycopg2.Error as err:
-    print("DB error: ", err)
-except Exception as err:
-    print("Internal Error: ", err)
-    raise err
 finally:
     if db is not None:
         db.close()
