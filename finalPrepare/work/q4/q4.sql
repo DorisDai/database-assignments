@@ -29,7 +29,7 @@ create or replace function
 	q4() returns setof SongCounts
 as $$
 declare 
-	_result record;
+	_result SongCounts;
 begin
 	
 	for _result in 
