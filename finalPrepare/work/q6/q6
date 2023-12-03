@@ -33,7 +33,7 @@ try:
    cur.execute(grp, [groupID])
    gname = cur.fetchone()
    if not gname:
-      print(f"Invalid group ID")
+      print("Invalid group ID")
       exit(1)
    alb = """
       select title, year, genre, id
