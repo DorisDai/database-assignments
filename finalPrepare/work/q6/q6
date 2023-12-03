@@ -41,9 +41,9 @@ try:
    """
    cur.execute(alb, [groupID])
    albums = cur.fetchall()
-   for title, year, genere, aId in albums:
+   for title, year, genre, aId in albums:
       print('--------------------')
-      print(f"{title} (year) (genre)")
+      print(f"{title} ({year}) ({genre})")
       print('--------------------')
       qSongs = """
          select trackNo, title, length
