@@ -8,20 +8,32 @@ create or replace function q4(_acctID integer)
 as $$
 declare
 	_id integer;
-	_sum integer;
-	_rdeposit record;
+	_sum integer := 0;
+	_rtrans record;
+	_aBalance integer;
 begin
-	select id into _id from Accounts where id = _acctID;
+	select id into _id, balance into _aBalance from Accounts where id = _acctID;
 	if (not found) then
 		return 'No such account';
 	end if;
-	-- ??select muliple resul into a var?
-	select amount into _sum from transactions where id = (
-		select min(id) from transactions where id = _acctID
-	);
 
-	for _rdeposit in select amoun from 
+	for _rtrans in 
+		select * 
+		from transactions
+		where dest = _acctID or source = _acctID
+	loop
+		if _rtrans.dest is not null and _rtrans.dest = _acctID then
+			_sum = _sum + _rtrans.amount;
+		elsif _rtrans.source is not null and _rtrans.source = _acctID
+		then
+			_sum = _sum - _rtrans.amount;
+		end if;
+	end loop;
 
-
+	if _sum = _aBalance then
+		return 'OK';
+	else
+		return format('Mismatch: calculated balance %s, stored balance %s', _sum, _aBalance);
+	end if;
 end;
 $$ language plpgsql;

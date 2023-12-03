@@ -16,4 +16,12 @@ tmp3 = Proj[Accounts.id,Accounts.balance]
 
 C. select c.given, c.family, t.source, t.amount ...
 
+tmp1 = Sel[tdate < '2022-05-01' and ttype = 'withdrawal'] Transactions
 
+tmp2 = tmp1 join[Transactions.actor = Customers.id] Customers
+
+tmp3 = tmp2 join[tmp1.source = Accounts.id] Accounts
+
+tmp4 = tmp3 join[tmp2.held_at = Branches.id] Branches
+
+result(given, family, source, amount) = Proj[given, family, source, amount] tmp4
