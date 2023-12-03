@@ -2,14 +2,33 @@
 # BCNF normalization
 
 (A)
-
-
-
-
+A -> BC
+D -> EF
 (B)
+round 1
+schema: ABCDEF
+relative fds:{
+    A -> BC
+    D -> EF
+}
+primary key: AD
+A -> BC is not in BCNF as it is not whole primary key
+new schema: {ADEF, ABC}
 
+round2 
+check for schema ADEF
+relative fds:{
+    D -> EF
+}
+primary key: D
+D -> EF is in BCNF
 
-
+check for schema ABC
+relative fds:{
+    A -> BC
+}
+primary key: A
+A -> BC is in BCNF
 
 (C)
 

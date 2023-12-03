@@ -1,14 +1,55 @@
 # COMP3311 20T3 Final Exam Q8
 
 (a)
+create table U (
+    a integer not null,
+    b text not null, 
+    id serial primary key
+)
 
-
+create table M (
+    uId integer not null,
+    m text,
+    foreign key (uId) references U(id),
+    primary key (uid, m)
+)
 
 (b)
+create table S (
+    id serial primary key,
+    Rt integer not null,
+    foreign key (Rt) references T(id)
+)
 
+create table T (
+    id serial primary key,
+    c text not null,
+)
 
+comment: T.id can appear at most 1 time in table S, this info is lost
 
 (c)
+create table P (
+    id serial primary key,
+    e text not null,
+)
 
+create table Q1 (
+    Pid integer  primary key,
+    f integer not null,
+    foreign key (Pid) references P(id)
+)
 
+create table Q2 (
+    Pid integer primary key,
+    foreign key (Pid) references P(id)
+)
+
+create table Q3 (
+    Pid integer primary key,
+    g integer not null,
+    foreign key (Pid) references P(id)
+)
+
+cooment: P must be one of Q1 Q2 or Q3, this info is lost in sql schema, disjoint is also lost in sql schema
 

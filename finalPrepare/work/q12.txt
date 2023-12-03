@@ -1,10 +1,26 @@
 # COMP3311 20T3 Final Exam Q12
 
 (a)
-
-
+for Y: T2 -> T1
+for  X: T1 -> T2 -> T3
+there is a circle, so not conflict serializable
 (b)
+T2 -> T1 -> T3
+!!!first read in curr occur first read in Se, final write in curr must be final write in Se
 
+T1:           W(Y) W(X)
+T2:  R(Y) W(X)
 
+T3:                    W(X)
+
+For X, 
+no one does initial read
+T3 does final write
+For Y,
+T2 does initial read
+T1 does final write
+
+!!!If there are second read, secod read should be after nth write In curr and Se
+curr schedule has the same properties.
 (c)
 

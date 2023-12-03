@@ -1,8 +1,97 @@
 # COMP3311 20T3 Final Exam Q10
 
 (a)
-
-
+fid -> FoToDsDpArPr
+aid -> AnRa
+eid -> EnSa
 (b)
+round1:
+schema:FoToDsDpArPrAnRaEnSaFidAidEid
+related fds: {
+    Fid -> FoToDsDpArPr
+    Aid -> AnRa
+    Eid -> EnSa
+    FoTo -> Ds
+}
+
+fid -> FoToDsDpArPr is not in BCNF, because fid is not a candidate key
+
+new schema: {AnRaEnSaFidAidEid, FoToDsDpArPrFid}
+
+round2:
+check for schema: AnRaEnSaFidAidEid
+related fds: {
+    Aid -> AnRa
+    Eid -> EnSa
+}
+
+Aid -> AnRa is not in BCNF, because Aid is not a candidate key
+new schema: {EnSaFidAidEid, AnRaAid, FoToDsDpArPrFid}
+
+round3:
+check for schema EnSaFidAidEid
+related fds: {
+    Eid -> EnSa
+}
+Eid -> EnSa is in Bcnf
+
+check for schema AnRaAid
+related fds: {
+    Aid -> AnRa
+}
+Aid -> AnRa is in Bcnf
+
+check for schema FoToDsDpArPrFid
+related fds: {
+    Fid -> FoToDsDpArPr
+}
+Fid -> FoToDsDpArPr is in Bcnf
+new schema that in BCNF is {EnSaFidAidEid, AnRaAid, FoToDsDpArPrFid}
+
+table1(eid, ename, salary, fid, aid)
+table2(aid, aname, range)
+table3(fid, from, to, distance, departs, arrives, price)
 
 
+订正：
+a.
+fid -> FoToDsDpArPr
+aid -> AnRa
+eid -> EnSa
+Inferred
+from,to -> distance
+
+check for relation Flights(fid, from, to, distance, departs, arrives, price)
+
+related fds:{
+    fid -> from, to, distance, departs, arrives, price
+    from, to -> distance
+}
+from,to -> distance violates BCNF, because it is not a candidate key
+
+new relation schema: {from, to, departs, arrives, price; from, to, distance}
+
+check for relation schema Aircraft(aid, aname, range):
+related fds:{
+    aid -> aname, rangea
+}
+it is in BCNF
+
+check for relation schema Certified(employee, aircraft):
+related fds:{
+    none
+}
+it is in BCNF
+
+check for relation schema Employees(employee, aircraft):
+related fds:{
+    eid -> ename, salary
+}
+it is in BCNF
+
+new db schema:
+Flights(fid, from, to, departs, arrives, price)
+tableNew(from, to, distance)
+Aircraft(aid, aname, range)
+Certified(employee, aircraft)
+Employees(eid, ename, salary)
