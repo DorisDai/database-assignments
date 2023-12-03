@@ -32,10 +32,10 @@ try:
    cur = db.cursor()
    cur.execute(grp, [groupID])
    gname = cur.fetchone()
-   print('hii')
    if not gname:
-      print("Invalid group ID")
+      print('Invalid group ID')
       exit(1)
+   print(f"Discography for {gname[0]}")
    alb = """
       select title, year, genre, id
       from Albums
