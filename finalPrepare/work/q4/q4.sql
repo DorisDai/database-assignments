@@ -36,7 +36,7 @@ begin
 		select Gname, numS, numL
 		from lScount join sScount on Gid = lGid
 	loop
-		return next _result
+		return next _result;
 	end loop;
 
 end;
