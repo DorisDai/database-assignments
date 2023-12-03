@@ -1,0 +1,50 @@
+# COMP3311 23T1 Final Exam
+# Q6: ER -> Relational Mapping
+
+(a) ER mapping
+
+create table People (
+    id integer primary key,
+    name text,
+    lives_in text
+);
+
+create table Customers (
+    id integer,
+    foreign key (id) references People(id)
+);
+
+create table Emploees (
+    id integer,
+    wkBranch integer not null,
+    salary integer check (salary > 0),
+    foreign key (id) references People(id),
+    foreign key (wkBranch) references Branches(id)
+);
+
+create table Held_by (
+    customerId integer not null,
+    accountId integer not null,
+    foreign key (customerId) references Customers(id),
+    foreign key (accountId) references Accounts(id)
+);
+
+people must be cusomers or emploes or both. This info is lost in sql schema.
+
+
+(b) Single-table mapping
+
+create table Single (
+    id integer primary key,
+    name text,
+    lives_in text,
+    accountId integer,
+    foreign key (accountId) references Accounts(id),
+    wkBranch integer,
+    salary integer check (salary > 0),
+    foreign key (wkBranch) references Branches(id),
+)
+Info lost:
+customer or account must presdent.
+people must be cusomers or emploes or both. 
+Emploees must woks in branches

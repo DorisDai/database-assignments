@@ -1,0 +1,1 @@
+psql:q2.sql:12: ERROR:  function string_agg(integer, unknown) does not exist
