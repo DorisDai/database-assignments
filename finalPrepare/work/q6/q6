@@ -24,10 +24,18 @@ if not groupID.isnumeric():
 try:
    db = psycopg2.connect("dbname=music")
 
-   # ... your code goes here ...
+   alb = """
+   select id, name
+   from groups
+   where id = '5'
+   """
+   cur = db.cursor()
+   cur.execute(alb)
+   gid, gname = cur.fetchone()
+   print(f"Discography for {gname}")
 
-except psycopg2.Error as err:
-   print("DB error: ", err)
+# except psycopg2.Error as err:
+#    print("DB error: ", err)
 finally:
    if cur:
        cur.close()
