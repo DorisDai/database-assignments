@@ -32,33 +32,33 @@ try:
    cur = db.cursor()
    cur.execute(grp, [groupID])
    gname = cur.fetchone()
-   if gname:
-      print(f"Discography for {gname[0]}")
-   
-      alb = """
-         select title, year, genre, id
-         from Albums
-         where made_by = %s
+   if not gname:
+      print(f"Invalid group ID")
+      exit(1)
+   alb = """
+      select title, year, genre, id
+      from Albums
+      where made_by = %s
+   """
+   cur.execute(alb, [groupID])
+   albums = cur.fetchall()
+   for title, year, genre, aId in albums:
+      print('--------------------')
+      print(f"{title} ({year}) ({genre})")
+      print('--------------------')
+      qSongs = """
+         select trackNo, title, length
+         from Songs
+         where on_album = %s
       """
-      cur.execute(alb, [groupID])
-      albums = cur.fetchall()
-      for title, year, genre, aId in albums:
-         print('--------------------')
-         print(f"{title} ({year}) ({genre})")
-         print('--------------------')
-         qSongs = """
-            select trackNo, title, length
-            from Songs
-            where on_album = %s
-         """
-         cur.execute(qSongs, [aId])
-         Songs = cur.fetchall()
-         for trackNo, title, length in Songs:
-            minutes = length // 60
-            seconds = length - minutes * 60
-            print(f"{trackNo:2d}. {title} ({minutes}:{seconds:02d})")
-         
+      cur.execute(qSongs, [aId])
+      Songs = cur.fetchall()
+      for trackNo, title, length in Songs:
+         minutes = length // 60
+         seconds = length - minutes * 60
+         print(f"{trackNo:2d}. {title} ({minutes}:{seconds:02d})")
       
+   
 
 # except psycopg2.Error as err:
 #    print("DB error: ", err)
