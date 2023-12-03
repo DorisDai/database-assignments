@@ -55,7 +55,7 @@ try:
       for trackNo, title, length in Songs:
          minutes = length // 60
          seconds = length - minutes * 60
-         print(f"{trackNo:2d}. {title} ({minutes}:{seconds:02d})", trackNo, title, minutes, seconds)
+         print(f"{trackNo:2d}. {title} ({minutes}:{seconds:02d})")
       
    
 
