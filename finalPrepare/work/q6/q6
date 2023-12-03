@@ -50,10 +50,13 @@ try:
          from Songs
          where on_album = %s
       """
-      # cur.execute(qSongs, [aId])
-      # Songs = cur.fetchall()
-      # for 
-      # printf("%2d. %s (%d:%02d)\n", trackno, title, minutes, seconds)
+      cur.execute(qSongs, [aId])
+      Songs = cur.fetchall()
+      for trackNo, title, length in Songs:
+         minutes = length // 60
+         seconds = length - minutes * 60
+         print(f"%2d. %s (%d:%02d)\n", trackNo, title, minutes, seconds)
+      
    
 
 # except psycopg2.Error as err:
