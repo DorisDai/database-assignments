@@ -12,7 +12,7 @@ declare
 	_rtrans record;
 	_aBalance integer;
 begin
-	select id into _id, balance into _aBalance from Accounts where id = _acctID;
+	select id, balance into _id, _aBalance from Accounts where id = _acctID;
 	if (not found) then
 		return 'No such account';
 	end if;
