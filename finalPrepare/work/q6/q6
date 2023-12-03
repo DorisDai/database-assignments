@@ -35,7 +35,7 @@ try:
    print(f"Discography for {gname}")
    
    alb = """
-      select title, year, genere, id
+      select title, year, genre, id
       from Albums
       where made_by = %s
    """
