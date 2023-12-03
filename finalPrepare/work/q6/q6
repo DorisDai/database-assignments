@@ -32,6 +32,7 @@ try:
    cur = db.cursor()
    cur.execute(grp, [groupID])
    gname = cur.fetchone()
+   print('hii')
    if not gname:
       print("Invalid group ID")
       exit(1)
