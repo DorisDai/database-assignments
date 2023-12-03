@@ -11,7 +11,7 @@ create or replace view sScount(Gid, Gname, numS) as
 	select G.id, G.name, count(S.id)
 	from Songs S
 	join Albums A on A.id = S.on_album
-	join Groups G on G.id = A.made_by
+	right join Groups G on G.id = A.made_by
 	where S.length < 180
 	group by G.id, G.name
 ;
@@ -20,7 +20,7 @@ create or replace view lScount(lGid, lGname, numL) as
 	select G.id, G.name, count(S.id)
 	from Songs S
 	join Albums A on A.id = S.on_album
-	join Groups G on G.id = A.made_by
+	right join Groups G on G.id = A.made_by
 	where S.length > 360
 	group by G.id, G.name
 ;
