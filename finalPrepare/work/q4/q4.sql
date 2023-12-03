@@ -34,7 +34,7 @@ begin
 	
 	for _result in 
 		select Gname, numS, numL
-		from lScount join sScount on Gid = lGid
+		from lScount full join sScount on Gid = lGid
 	loop
 		return next _result;
 	end loop;
