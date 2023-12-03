@@ -24,15 +24,37 @@ if not groupID.isnumeric():
 try:
    db = psycopg2.connect("dbname=music")
 
-   alb = """
-   select id, name
+   grp = """
+   select name
    from groups
-   where id = '5'
+   where id = %s
    """
    cur = db.cursor()
-   cur.execute(alb)
-   gid, gname = cur.fetchone()
+   cur.execute(grp, [groupID])
+   gname = cur.fetchone()
    print(f"Discography for {gname}")
+   
+   alb = """
+      select title, year, genere, id
+      from Albums
+      where made_by = %s
+   """
+   cur.execute(alb, [groupID])
+   albums = cur.fetchall()
+   for title, year, genere, aId in albums:
+      print('--------------------')
+      print(f"{title} (year) (genre)")
+      print('--------------------')
+      qSongs = """
+         select trackNo, title, length
+         from Songs
+         where on_album = %s
+      """
+      # cur.execute(qSongs, [aId])
+      # Songs = cur.fetchall()
+      # for 
+      # printf("%2d. %s (%d:%02d)\n", trackno, title, minutes, seconds)
+   
 
 # except psycopg2.Error as err:
 #    print("DB error: ", err)
