@@ -17,7 +17,7 @@ declare
     result GroupGenres;
 begin
     for r1 in 
-        select G.id as Gid, G.name as Gname, string_agg(distinct A.genre, ', ' order by A.genre) as gGenre
+        select G.id as Gid, G.name as Gname, string_agg(distinct A.genre, ',' order by A.genre) as gGenre
         from groups G
         left join Albums A on G.id = A.made_by
         group by Gid, Gname
